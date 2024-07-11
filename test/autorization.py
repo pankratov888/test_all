@@ -13,7 +13,7 @@ import datetime
 import json
 import pytest
 # Установка путей к браузеру и ChromeDriver из переменных окружения
-chrome_bin = os.getenv('CHROME_BIN', 'C:\\Chromium\\Application\\chrome.exe')
+binary_location = r'C:\Chromium\Application\chrome.exe'
 chrome_driver = os.getenv('CHROME_DRIVER', 'C:\\chromedriver\\chromedriver.exe')
 extension_path = os.path.join(os.path.dirname(os.path.abspath(__file__)), '../extensions/1.2.13_0.crx')
 options = webdriver.ChromeOptions()

@@ -10,14 +10,14 @@ jobs:
     - name: Checkout repository
       uses: actions/checkout@v2
 
-    - name: Install 7-Zip
+    - name: Install Git LFS
       run: |
-            choco install 7zip --no-progress
+          git lfs install
+          git lfs pull
 
-    - name: Download Chromium
+    - name: Unzip Chromium
       run: |
-        curl -L -o Chromium.zip "https://cloud.mail.ru/public/jBUP/5jraqGLbR"
-        Expand-Archive -Path Chromium.zip -DestinationPath C:\Chromium
+              Expand-Archive -Path Chromium.zip -DestinationPath C:\Chromium
 
     - name: Set up ChromeDriver
       run: |
