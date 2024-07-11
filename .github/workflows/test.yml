@@ -10,6 +10,10 @@ jobs:
     - name: Checkout repository
       uses: actions/checkout@v2
 
+    - name: Install 7-Zip
+      run: |
+            choco install 7zip --no-progress
+
     - name: Download Chromium
       run: |
         curl -L -o Chromium.zip "https://drive.google.com/uc?export=download&id=17X8fPcJoY4tepOMSakJZslUwDspuD7z5"
