@@ -22,10 +22,19 @@ jobs:
       run: |
         $file_id = "17X8fPcJoY4tepOMSakJZslUwDspuD7z5"
         $file_name = "Chromium.zip"
-        $url = "https://drive.google.com/uc?export=download&id=$file_id"
-        $confirm_token = Invoke-WebRequest -Uri $url -UseBasicParsing | Select-String -Pattern 'confirm=([0-9A-Za-z_]+)' | ForEach-Object { $_.Matches[0].Groups[1].Value }
-        $download_url = "https://drive.google.com/uc?export=download&confirm=$confirm_token&id=$file_id"
-        Invoke-WebRequest -Uri $download_url -OutFile $file_name
+        $base_url = "https://drive.google.com/uc?export=download&id=$file_id"
+        $cookie_file = "$(Get-Location)\cookies.txt"
+
+        # Get confirm token
+        $confirm_token = Invoke-WebRequest -Uri $base_url -UseBasicParsing -SessionVariable session | Select-String -Pattern 'confirm=([0-9A-Za-z_]+)' | ForEach-Object { $_.Matches[0].Groups[1].Value }
+
+        if (-not $confirm_token) {
+            throw "Failed to get confirm token"
+        }
+
+        # Download file using confirm token
+        $download_url = "$base_url&confirm=$confirm_token"
+        Invoke-WebRequest -Uri $download_url -OutFile $file_name -WebSession $session
       shell: pwsh
 
     - name: Verify downloaded file
@@ -43,7 +52,6 @@ jobs:
     - name: Unzip Chromium.zip
       run: Expand-Archive -Path ./Chromium.zip -DestinationPath ./bin/Chromium
       shell: pwsh
-
 
     - name: Set up environment variables
       run: |
