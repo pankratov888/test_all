@@ -15,20 +15,17 @@ jobs:
           git lfs install
           git lfs pull
 
-    - name: Extract Chromium
+    - name: Unzip Chromium.zip
       run: |
-            Expand-Archive -Path bin/Chromium.zip -DestinationPath C:\Chromium
-    
+          Expand-Archive -Path ./bin/Chromium.zip -DestinationPath ./bin/Chromium
+      shell: pwsh
 
-    - name: Set up ChromeDriver
+    - name: Set up environment variables
       run: |
-        mkdir C:\chromedriver
-        copy bin\chromedriver.exe C:\chromedriver\chromedriver.exe
-
-    - name: Set up extension
-      run: |
-        mkdir C:\extensions
-        copy extensions\1.2.13_0.crx C:\extensions\1.2.13_0.crx
+              $env:CHROME_BIN="$(pwd)/bin/Chromium/Application/chrome.exe"
+              $env:EXTENSION_CRX="$(pwd)/extensions/1.2.13_0.crx
+              $env:EXTENSION_DRIVER="$(pwd)/bin/chromedriver.exe
+      shell: pwsh
 
     - name: Install Python
       uses: actions/setup-python@v2
@@ -39,8 +36,9 @@ jobs:
       run: |
         pip install -r requirements.txt
 
-    - name: Run test
+    - name: Set up environment variables
       run: |
-        $env:CHROME_BIN="C:\Сhromium\Application\chrome.exe"
-        $env:CHROME_DRIVER="C:\chromedriver\chromedriver.exe"
-        pytest test/autorization.py
+              $env:CHROME_BIN="$(pwd)/bin/Chromium/Application/chrome.exe"
+              $env:EXTENSION_CRX="$(pwd)/extensions/1.2.13_0.crx
+              $env:EXTENSION_DRIVER="$(pwd)/bin/chromedriver.exe
+      shell: pwsh

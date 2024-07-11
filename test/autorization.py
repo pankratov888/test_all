@@ -14,9 +14,10 @@ import json
 import pytest
 # Определите пути к исполняемым файлам
 current_dir = os.path.dirname(os.path.abspath(__file__))
-binary_location = os.path.join(current_dir, '..', 'bin', 'Chromium.zip', 'Application', 'chrome.exe')
+binary_location = os.path.join(current_dir, '..', 'bin', 'chrome.exe')
 binary_yandex_driver_file = os.path.join(current_dir, '..', 'bin', 'chromedriver.exe')
-extension_path = os.path.join(current_dir, '..', 'extensions' '1.2.13_0.crx')
+extension_path = os.path.join(current_dir, '..', 'extensions', '1.2.13_0.crx')  # Здесь была добавлена запятая
+
 options = webdriver.ChromeOptions()
 
 options.add_experimental_option('detach',True)

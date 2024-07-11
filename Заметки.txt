@@ -7,3 +7,5 @@ git lfs install
 git add .gitattributes
 
 binary_location = os.path.join(current_dir, 'C:\\Chromium\\Application\\chrome.exe')
+
+binary_location = os.path.join(current_dir, '..', 'bin', 'Chromium.zip', 'Application', 'chrome.exe')
