@@ -1,1 +1,7 @@
 git remote -v Узнать репозиторий
+git lfs install
+
+
+ git lfs track "*.zip"
+
+git add .gitattributes
