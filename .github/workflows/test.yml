@@ -44,6 +44,7 @@ jobs:
       run: Expand-Archive -Path ./Chromium.zip -DestinationPath ./bin/Chromium
       shell: pwsh
 
+
     - name: Set up environment variables
       run: |
         $env:CHROME_BIN = "$(Get-Location)\bin\Chromium\Application\chrome.exe"
