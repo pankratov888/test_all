@@ -28,6 +28,18 @@ jobs:
         Invoke-WebRequest -Uri $download_url -OutFile $file_name
       shell: pwsh
 
+    - name: Verify downloaded file
+      run: |
+        if (-Not (Test-Path -Path "$(Get-Location)\Chromium.zip")) { 
+            throw "Chromium.zip not found" 
+        }
+        $fileInfo = Get-Item "$(Get-Location)\Chromium.zip"
+        Write-Output "Chromium.zip size: $($fileInfo.Length) bytes"
+        if ($fileInfo.Length -lt 100000) { # Assuming the file should be at least 100KB
+            throw "Chromium.zip seems to be corrupted or incomplete"
+        }
+      shell: pwsh
+
     - name: Unzip Chromium.zip
       run: Expand-Archive -Path ./Chromium.zip -DestinationPath ./bin/Chromium
       shell: pwsh
