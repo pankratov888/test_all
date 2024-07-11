@@ -1,0 +1,34 @@
+name: Run test
+
+on: [push, pull_request]
+
+jobs:
+  test:
+    runs-on: windows-latest
+
+    steps:
+    - name: Checkout repository
+      uses: actions/checkout@v2
+
+    - name: Set up ChromeDriver
+      run: |
+        mkdir C:\chromedriver
+        copy bin\chromedriver.exe C:\chromedriver\chromedriver.exe
+
+    - name: Set up extension
+      run: |
+        mkdir C:\extensions
+        copy extensions\1.2.13_0.crx C:\extensions\1.2.13_0.crx
+
+    - name: Install Python
+      uses: actions/setup-python@v2
+      with:
+        python-version: '3.12.4'  # Укажите необходимую версию Python
+
+    - name: Install dependencies
+      run: |
+        pip install -r requirements.txt
+
+    - name: Run test
+      run: |
+        pytest test/autorization.py
