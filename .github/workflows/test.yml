@@ -25,8 +25,11 @@ jobs:
         $base_url = "https://drive.google.com/uc?export=download&id=$file_id"
         
         # Get confirm token
-        $response1 = Invoke-WebRequest -Uri $base_url -SessionVariable session
-        $confirm_token = ($response1.Content -split "`n" | Select-String -Pattern 'name="confirm" value="([\w]+)"' | ForEach-Object { $_.Matches[0].Groups[1].Value }) -join ''
+        $response1 = Invoke-WebRequest -Uri $base_url -SessionVariable session -UseBasicParsing
+        $confirm_token = ($response1.Content -split "`n" | Select-String -Pattern 'confirm=([\w]+)' | ForEach-Object { $_.Matches[0].Groups[1].Value }) -join ''
+        
+        Write-Output "Response Content: $($response1.Content)"  # Логирование для отладки
+        Write-Output "Confirm Token: $confirm_token"  # Логирование для отладки
         
         if (-not $confirm_token) {
             throw "Failed to get confirm token"
@@ -34,11 +37,8 @@ jobs:
         
         # Download file using confirm token
         $download_url = "$base_url&confirm=$confirm_token"
-        Invoke-WebRequest -Uri $download_url -OutFile $file_name -WebSession $session
-      shell: pwsh
-
-    - name: Verify downloaded file
-      run: |
+        Invoke-WebRequest -Uri $download_url -OutFile $file_name -WebSession $session -UseBasicParsing
+        
         if (-Not (Test-Path -Path "$(Get-Location)\Chromium.zip")) { 
             throw "Chromium.zip not found" 
         }
