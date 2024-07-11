@@ -12,10 +12,11 @@ import os
 import datetime
 import json
 import pytest
-# Установка путей к браузеру и ChromeDriver из переменных окружения
-binary_location = r'C:\Chromium\Application\chrome.exe'
-chrome_driver = os.getenv('CHROME_DRIVER', 'C:\\chromedriver\\chromedriver.exe')
-extension_path = os.path.join(os.path.dirname(os.path.abspath(__file__)), '../extensions/1.2.13_0.crx')
+# Определите пути к исполняемым файлам
+current_dir = os.path.dirname(os.path.abspath(__file__))
+binary_location = os.path.join(current_dir, 'C:\\Chromium\\Application\\chrome.exe')
+binary_yandex_driver_file = os.path.join(current_dir, '..', 'bin', 'chromedriver.exe')
+extension_path = os.path.join(current_dir, '..', 'extensions' '1.2.13_0.crx')
 options = webdriver.ChromeOptions()
 
 options.add_experimental_option('detach',True)
