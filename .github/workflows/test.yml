@@ -22,9 +22,16 @@ jobs:
 
     - name: Set up environment variables
       run: |
-              $env:CHROME_BIN="$(pwd)/bin/Chromium/Application/chrome.exe"
-              $env:EXTENSION_CRX="$(pwd)/extensions/1.2.13_0.crx
-              $env:EXTENSION_DRIVER="$(pwd)/bin/chromedriver.exe
+          $env:CHROME_BIN="$(pwd)/bin/Chromium/Application/chrome.exe"
+          $env:EXTENSION_CRX="$(pwd)/extensions/1.2.13_0.crx"
+          $env:EXTENSION_DRIVER="$(pwd)/bin/chromedriver.exe"
+      shell: pwsh
+
+    - name: Verify files
+      run: |
+              if (!(Test-Path -Path "$(pwd)/bin/Chromium/Application/chrome.exe")) { throw "Chrome executable not found" }
+              if (!(Test-Path -Path "$(pwd)/bin/chromedriver.exe")) { throw "Chromedriver not found" }
+              if (!(Test-Path -Path "$(pwd)/extensions/1.2.13_0.crx")) { throw "Extension not found" }
       shell: pwsh
 
     - name: Install Python

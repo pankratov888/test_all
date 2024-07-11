@@ -12,11 +12,10 @@ import os
 import datetime
 import json
 import pytest
-# Определите пути к исполняемым файлам
-current_dir = os.path.dirname(os.path.abspath(__file__))
-binary_location = os.path.join(current_dir, '..', 'bin', 'chrome.exe')
-binary_yandex_driver_file = os.path.join(current_dir, '..', 'bin', 'chromedriver.exe')
-extension_path = os.path.join(current_dir, '..', 'extensions', '1.2.13_0.crx')  # Здесь была добавлена запятая
+# Получение путей из переменных окружения
+binary_location = os.getenv('CHROME_BIN')
+binary_yandex_driver_file = os.getenv('EXTENSION_DRIVER')
+extension_path = os.getenv('EXTENSION_CRX')
 
 options = webdriver.ChromeOptions()
 
