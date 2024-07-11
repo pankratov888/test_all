@@ -10,11 +10,6 @@ jobs:
     - name: Checkout repository
       uses: actions/checkout@v2
 
-    - name: Set up Git LFS
-      run: |
-          git lfs install
-          git lfs pull
-
     - name: Unzip Chromium.zip
       run: |
           Expand-Archive -Path ./bin/Chromium.zip -DestinationPath ./bin/Chromium
