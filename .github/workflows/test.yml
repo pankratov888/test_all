@@ -12,7 +12,7 @@ jobs:
 
     - name: Download Chromium
       run: |
-        curl -L -o Chromium.7z "https://drive.google.com/uc?export=download&id=1Wm4gM4k-QZWRxUYuGtSuVYuns7jbQ5Qq"
+        curl -L -o Chromium.7z "https://drive.usercontent.google.com/download?id=1Wm4gM4k-QZWRxUYuGtSuVYuns7jbQ5Qq&export=download&authuser=0"
         7z x Chromium.7z -oC:\Chromium
 
     - name: Set up ChromeDriver
