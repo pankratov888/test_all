@@ -20,9 +20,13 @@ jobs:
 
     - name: Download Chromium.zip from Google Drive
       run: |
-        file_id="17X8fPcJoY4tepOMSakJZslUwDspuD7z5"
-        file_name="Chromium.zip"
-        curl -L -o $file_name "https://drive.usercontent.google.com/download?id=17X8fPcJoY4tepOMSakJZslUwDspuD7z5&export=download&authuser=0&confirm=$(curl -c /tmp/cookies "https://drive.google.com/uc?export=download&id=$file_id" | sed -n 's/.*confirm=\(.*\)&amp.*/\1/p')&id=$file_id"
+        $file_id = "17X8fPcJoY4tepOMSakJZslUwDspuD7z5"
+        $file_name = "Chromium.zip"
+        $url = "https://drive.google.com/uc?export=download&id=$file_id"
+        $confirm_token = Invoke-WebRequest -Uri $url -UseBasicParsing | Select-String -Pattern 'confirm=([0-9A-Za-z_]+)' | ForEach-Object { $_.Matches[0].Groups[1].Value }
+        $download_url = "https://drive.google.com/uc?export=download&confirm=$confirm_token&id=$file_id"
+        Invoke-WebRequest -Uri $download_url -OutFile $file_name
+      shell: pwsh
 
     - name: Unzip Chromium.zip
       run: Expand-Archive -Path ./Chromium.zip -DestinationPath ./bin/Chromium
@@ -30,16 +34,16 @@ jobs:
 
     - name: Set up environment variables
       run: |
-        $env:CHROME_BIN="$(pwd)/bin/Chromium/Application/chrome.exe"
-        $env:EXTENSION_CRX="$(pwd)/extensions/1.2.13_0.crx"
-        $env:EXTENSION_DRIVER="$(pwd)/bin/chromedriver.exe"
+        $env:CHROME_BIN = "$(Get-Location)\bin\Chromium\Application\chrome.exe"
+        $env:EXTENSION_CRX = "$(Get-Location)\extensions\1.2.13_0.crx"
+        $env:EXTENSION_DRIVER = "$(Get-Location)\bin\chromedriver.exe"
       shell: pwsh
 
     - name: Verify files
       run: |
-        if (!(Test-Path -Path "$(pwd)/bin/Chromium/Application/chrome.exe")) { throw "Chrome executable not found" }
-        if (!(Test-Path -Path "$(pwd)/bin/chromedriver.exe")) { throw "Chromedriver not found" }
-        if (!(Test-Path -Path "$(pwd)/extensions/1.2.13_0.crx")) { throw "Extension not found" }
+        if (-Not (Test-Path -Path "$(Get-Location)\bin\Chromium\Application\chrome.exe")) { throw "Chrome executable not found" }
+        if (-Not (Test-Path -Path "$(Get-Location)\bin\chromedriver.exe")) { throw "Chromedriver not found" }
+        if (-Not (Test-Path -Path "$(Get-Location)\extensions\1.2.13_0.crx")) { throw "Extension not found" }
       shell: pwsh
 
     - name: Run tests
