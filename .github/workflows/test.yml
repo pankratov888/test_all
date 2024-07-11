@@ -1,46 +1,47 @@
-name: Run test
+name: Test Automation
 
-on: [push, pull_request]
+on: [push]
 
 jobs:
-  test:
+  build:
     runs-on: windows-latest
 
     steps:
     - name: Checkout repository
       uses: actions/checkout@v2
 
-    - name: Unzip Chromium.zip
+    - name: Set up Python
+      uses: actions/setup-python@v2
+      with:
+        python-version: '3.12'
+
+    - name: Install dependencies
+      run: pip install -r requirements.txt
+
+    - name: Download Chromium.zip from Google Drive
       run: |
-          Expand-Archive -Path ./bin/Chromium.zip -DestinationPath ./bin/Chromium
+        file_id="17X8fPcJoY4tepOMSakJZslUwDspuD7z5"
+        file_name="Chromium.zip"
+        curl -L -o $file_name "https://drive.usercontent.google.com/download?id=17X8fPcJoY4tepOMSakJZslUwDspuD7z5&export=download&authuser=0&confirm=$(curl -c /tmp/cookies "https://drive.google.com/uc?export=download&id=$file_id" | sed -n 's/.*confirm=\(.*\)&amp.*/\1/p')&id=$file_id"
+
+    - name: Unzip Chromium.zip
+      run: Expand-Archive -Path ./Chromium.zip -DestinationPath ./bin/Chromium
       shell: pwsh
 
     - name: Set up environment variables
       run: |
-          $env:CHROME_BIN="$(pwd)/bin/Chromium/Application/chrome.exe"
-          $env:EXTENSION_CRX="$(pwd)/extensions/1.2.13_0.crx"
-          $env:EXTENSION_DRIVER="$(pwd)/bin/chromedriver.exe"
+        $env:CHROME_BIN="$(pwd)/bin/Chromium/Application/chrome.exe"
+        $env:EXTENSION_CRX="$(pwd)/extensions/1.2.13_0.crx"
+        $env:EXTENSION_DRIVER="$(pwd)/bin/chromedriver.exe"
       shell: pwsh
 
     - name: Verify files
       run: |
-              if (!(Test-Path -Path "$(pwd)/bin/Chromium/Application/chrome.exe")) { throw "Chrome executable not found" }
-              if (!(Test-Path -Path "$(pwd)/bin/chromedriver.exe")) { throw "Chromedriver not found" }
-              if (!(Test-Path -Path "$(pwd)/extensions/1.2.13_0.crx")) { throw "Extension not found" }
+        if (!(Test-Path -Path "$(pwd)/bin/Chromium/Application/chrome.exe")) { throw "Chrome executable not found" }
+        if (!(Test-Path -Path "$(pwd)/bin/chromedriver.exe")) { throw "Chromedriver not found" }
+        if (!(Test-Path -Path "$(pwd)/extensions/1.2.13_0.crx")) { throw "Extension not found" }
       shell: pwsh
 
-    - name: Install Python
-      uses: actions/setup-python@v2
-      with:
-        python-version: '3.12.4'  # Укажите необходимую версию Python
-
-    - name: Install dependencies
-      run: |
-        pip install -r requirements.txt
-
-    - name: Set up environment variables
-      run: |
-              $env:CHROME_BIN="$(pwd)/bin/Chromium/Application/chrome.exe"
-              $env:EXTENSION_CRX="$(pwd)/extensions/1.2.13_0.crx
-              $env:EXTENSION_DRIVER="$(pwd)/bin/chromedriver.exe
+    - name: Run tests
+      run: pytest test/autorization.py
       shell: pwsh
