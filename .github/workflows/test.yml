@@ -16,8 +16,8 @@ jobs:
 
     - name: Download Chromium
       run: |
-        curl -L -o Chromium.zip "https://drive.google.com/uc?export=download&id=17X8fPcJoY4tepOMSakJZslUwDspuD7z5"
-        Expand-Archive -Path Chromium.zip -DestinationPath D:\Chromium
+        curl -L -o Chromium.zip "https://cloud.mail.ru/public/jBUP/5jraqGLbR"
+        Expand-Archive -Path Chromium.zip -DestinationPath C:\Chromium
 
     - name: Set up ChromeDriver
       run: |
@@ -40,6 +40,6 @@ jobs:
 
     - name: Run test
       run: |
-        $env:CHROME_BIN="D:\Сhromium\Application\chrome.exe"
+        $env:CHROME_BIN="C:\Сhromium\Application\chrome.exe"
         $env:CHROME_DRIVER="C:\chromedriver\chromedriver.exe"
         pytest test/autorization.py
