@@ -26,7 +26,7 @@ jobs:
         
         # Get confirm token
         $response1 = Invoke-WebRequest -Uri $base_url -SessionVariable session
-        $confirm_token = ($response1.Content -split "`n" | Select-String -Pattern "confirm=[\w]+") -replace "^.*confirm=([\w]+).*$", '$1'
+        $confirm_token = ($response1.Content -split "`n" | Select-String -Pattern 'name="confirm" value="([\w]+)"' | ForEach-Object { $_.Matches[0].Groups[1].Value }) -join ''
         
         if (-not $confirm_token) {
             throw "Failed to get confirm token"
