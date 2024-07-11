@@ -14,7 +14,7 @@ import json
 import pytest
 # Определите пути к исполняемым файлам
 current_dir = os.path.dirname(os.path.abspath(__file__))
-binary_location = os.path.join(current_dir, 'C:\\Chromium\\Application\\chrome.exe')
+binary_location = os.path.join(current_dir, '..', 'bin', 'Chromium.zip', 'Application', 'chrome.exe')
 binary_yandex_driver_file = os.path.join(current_dir, '..', 'bin', 'chromedriver.exe')
 extension_path = os.path.join(current_dir, '..', 'extensions' '1.2.13_0.crx')
 options = webdriver.ChromeOptions()
