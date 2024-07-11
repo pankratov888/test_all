@@ -26,13 +26,13 @@ jobs:
         
         # Get confirm token
         $response1 = Invoke-WebRequest -Uri $base_url -SessionVariable session -UseBasicParsing
-        $confirm_token = ($response1.Content -split "`n" | Select-String -Pattern 'confirm=([\w]+)' | ForEach-Object { $_.Matches[0].Groups[1].Value }) -join ''
+        $confirm_token = ($response1.RawContent -split "`n" | Select-String -Pattern 'confirm=([\w]+)' | ForEach-Object { $_.Matches[0].Groups[1].Value }) -join ''
         
         # Check for virus scan warning and extract confirm token
         if (-not $confirm_token) {
             $confirm_token = ($response1.RawContent -split "`n" | Select-String -Pattern 'confirm=([\w]+)' | ForEach-Object { $_.Matches[0].Groups[1].Value }) -join ''
         }
-
+        
         Write-Output "Response Content: $($response1.Content)"  # Логирование для отладки
         Write-Output "Confirm Token: $confirm_token"  # Логирование для отладки
         
