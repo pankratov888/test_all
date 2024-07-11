@@ -23,15 +23,15 @@ jobs:
         $file_id = "17X8fPcJoY4tepOMSakJZslUwDspuD7z5"
         $file_name = "Chromium.zip"
         $base_url = "https://drive.google.com/uc?export=download&id=$file_id"
-        $cookie_file = "$(Get-Location)\cookies.txt"
-
+        
         # Get confirm token
-        $confirm_token = Invoke-WebRequest -Uri $base_url -UseBasicParsing -SessionVariable session | Select-String -Pattern 'confirm=([0-9A-Za-z_]+)' | ForEach-Object { $_.Matches[0].Groups[1].Value }
-
+        $response1 = Invoke-WebRequest -Uri $base_url -SessionVariable session
+        $confirm_token = ($response1.Content -split "`n" | Select-String -Pattern "confirm=[\w]+") -replace "^.*confirm=([\w]+).*$", '$1'
+        
         if (-not $confirm_token) {
             throw "Failed to get confirm token"
         }
-
+        
         # Download file using confirm token
         $download_url = "$base_url&confirm=$confirm_token"
         Invoke-WebRequest -Uri $download_url -OutFile $file_name -WebSession $session
