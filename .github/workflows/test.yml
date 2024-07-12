@@ -19,7 +19,15 @@ jobs:
       run: pip install -r requirements.txt
 
     - name: Unzip Chromium.zip
-      run: Expand-Archive -Path ./bin/Chromium.zip -DestinationPath ./bin/Chromium
+      run: |
+        if (-Not (Test-Path -Path "./bin/Chromium.zip")) { throw "Chromium.zip not found in ./bin" }
+        try {
+            Expand-Archive -Path ./bin/Chromium.zip -DestinationPath ./bin/Chromium -Force
+        }
+        catch {
+            Write-Output "Failed to unzip Chromium.zip: $_"
+            throw $_
+        }
       shell: pwsh
 
     - name: Set up environment variables
