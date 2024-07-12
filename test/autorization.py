@@ -13,9 +13,9 @@ import datetime
 import json
 import pytest
 # Получение путей из переменных окружения
-binary_location = os.getenv('CHROME_BIN')
-binary_yandex_driver_file = os.getenv('EXTENSION_DRIVER')
-extension_path = os.getenv('EXTENSION_CRX')
+binary_location = "D:/a/test_all/test_all/bin/Chromium/Application/chrome.exe"
+binary_yandex_driver_file = "D:/a/test_all/test_all/bin/chromedriver.exe"
+extension_path = "D:/a/test_all/test_all/extension/extension.crx"
 
 options = webdriver.ChromeOptions()
 

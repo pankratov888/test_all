@@ -58,14 +58,20 @@ jobs:
 
     - name: Run tests
       run: |
-        $EXTENSION_CRX = "./extension/extension.crx"
-        $EXTENSION_DRIVER = "./bin/chromedriver.exe"
-        $CHROME_BIN = "./bin/Chromium/Application/chrome.exe"
+        $EXTENSION_CRX = "D:/a/test_all/test_all/extension/extension.crx"
+        $EXTENSION_DRIVER = "D:/a/test_all/test_all/bin/chromedriver.exe"
+        $CHROME_BIN = "D:/a/test_all/test_all/bin/Chromium/Application/chrome.exe"
 
         Write-Output "Checking paths..."
         Write-Output "EXTENSION_CRX: $EXTENSION_CRX"
         Write-Output "EXTENSION_DRIVER: $EXTENSION_DRIVER"
         Write-Output "CHROME_BIN: $CHROME_BIN"
+
+        # Вывод текущего рабочего каталога
+        Write-Output "Current directory: $(Get-Location)"
+
+        # Вывод списка файлов в текущем каталоге и подкаталогах
+        Get-ChildItem -Recurse
 
         if (-Not (Test-Path -Path $EXTENSION_CRX)) { 
             throw "Extension file not found: $EXTENSION_CRX" 
