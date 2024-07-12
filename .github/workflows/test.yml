@@ -18,13 +18,13 @@ jobs:
     - name: Install Chromium-Gost
       run: |
         cd .\bin
-        .\chromium-gost-125.0.6422.60-windows-amd64-installer  # замените на имя вашего .exe файла
+        .\chromium-gost-125.0.6422.60-windows-amd64-installer.exe
       shell: pwsh
 
     - name: Install Crypto-pro
       run: |
         cd .\bin
-        .\CryptoPro-5.0.13000  # замените на имя вашего .exe файла
+        .\CryptoPro-5.0.13000.exe
       shell: pwsh
 
     - name: Install dependencies
@@ -32,8 +32,6 @@ jobs:
         python -m pip install --upgrade pip
         pip install -r requirements.txt
       shell: pwsh
-
-
 
     - name: Run tests
       run: python test/autorization.py
