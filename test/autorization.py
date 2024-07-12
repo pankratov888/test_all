@@ -1,17 +1,10 @@
-import allure
 from selenium import webdriver
 from selenium.webdriver.chrome.service import Service as ChromeService
 from selenium.webdriver.support.ui import WebDriverWait
-from selenium.webdriver.support import expected_conditions as EC
-from selenium.webdriver.common.by import By
-from selenium.webdriver.chrome.options import Options
 import time
-from selenium.webdriver.common.keys import Keys
-from selenium.common.exceptions import TimeoutException
 import os
-import datetime
-import json
-import pytest
+
+
 
 # Укажите путь к исполняемому файлу Chrome-Gost
 chrome_gost_path = "C:\\Users\\pankr\\AppData\\Local\\Chromium\\Application\\chrome.exe"  # Убедитесь, что путь правильный
