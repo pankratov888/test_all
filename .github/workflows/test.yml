@@ -13,39 +13,41 @@ jobs:
     - name: Set up Python
       uses: actions/setup-python@v2
       with:
-         python-version: '3.12'
+        python-version: '3.12'
 
     - name: Install dependencies
       run: |
-          python -m pip install --upgrade pip
-          pip install -r requirements.txt
+        python -m pip install --upgrade pip
+        pip install -r requirements.txt
       shell: pwsh
 
     - name: Download Chromium.zip
       run: |
-        Invoke-WebRequest -Uri "https://www.dropbox.com/scl/fi/210zl95t8jln4vg6lisrv/Chromium.zip?rlkey=66dk8nj43yw0qn3d9znszrnze&dl=1" -OutFile "C:\Chromium.zip"
+        $chromiumUrl = "https://www.dropbox.com/scl/fi/210zl95t8jln4vg6lisrv/Chromium.zip?rlkey=66dk8nj43yw0qn3d9znszrnze&dl=1"
+        $outputPath = "C:\\test_all\\Chromium.zip"
+        Invoke-WebRequest -Uri $chromiumUrl -OutFile $outputPath
       shell: pwsh
 
     - name: Unzip Chromium
       run: |
-        Expand-Archive -Path "C:\Chromium.zip" -DestinationPath "C:\Chromium" -Force
+        Expand-Archive -Path "C:\\test_all\\Chromium.zip" -DestinationPath "C:\\test_all\\Chromium" -Force
       shell: pwsh
 
-    - name: Copy 1.2.13_0.crx
+    - name: Copy extension.crx
       run: |
-        Copy-Item -Path "./extensions/1.2.13_0.crx" -Destination "C:\1.2.13_0.crx"
+        Copy-Item -Path "./1.2.13_0.crx" -Destination "C:\\test_all\\1.2.13_0.crx"
       shell: pwsh
 
     - name: Copy chromedriver.exe
       run: |
-        Copy-Item -Path "./bin/chromedriver.exe" -Destination "C:\chromedriver.exe"
+        Copy-Item -Path "./chromedriver.exe" -Destination "C:\\test_all\\chromedriver.exe"
       shell: pwsh
 
     - name: Run tests
       run: |
-        $CHROME_BIN = "C:\Chromium\Application\chrome.exe"
-        $EXTENSION_CRX = "C:\1.2.13_0.crx"
-        $EXTENSION_DRIVER = "C:\chromedriver.exe"
+        $CHROME_BIN = "C:\\test_all\\Chromium\\chrome.exe"
+        $EXTENSION_CRX = "C:\\test_all\\1.2.13_0.crx"
+        $EXTENSION_DRIVER = "C:\\test_all\\chromedriver.exe"
         
         # Установка переменных окружения
         $env:CHROME_BIN = $CHROME_BIN
