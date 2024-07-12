@@ -59,20 +59,20 @@ jobs:
     - name: Run tests
       run: |
         $EXTENSION_CRX = "./extension/extension.crx"
-    if (-Not (Test-Path -Path $EXTENSION_CRX)) { throw "Extension file not found: $EXTENSION_CRX" }
+        if (-Not (Test-Path -Path $EXTENSION_CRX)) { throw "Extension file not found: $EXTENSION_CRX" }
      
         $EXTENSION_DRIVER = "./bin/chromedriver.exe"
-    if (-Not (Test-Path -Path $EXTENSION_DRIVER)) { throw "Extension file not found: $EXTENSION_DRIVER" }
+        if (-Not (Test-Path -Path $EXTENSION_DRIVER)) { throw "Extension file not found: $EXTENSION_DRIVER" }
     
         $CHROME_BIN = "./bin/Chromium/Application/chrome.exe"
-    if (-Not (Test-Path -Path $CHROME_BIN)) { throw "Extension file not found: $CHROME_BIN" }
+        if (-Not (Test-Path -Path $CHROME_BIN)) { throw "Extension file not found: $CHROME_BIN" }
     
     # Установка переменных окружения
         $env:CHROME_BIN = $CHROME_BIN
         $env:EXTENSION_DRIVER = $EXTENSION_DRIVER
         $env:EXTENSION_CRX = $EXTENSION_CRX
     
-     pytest test/autorization.py
-  shell: pwsh
-  env:
-    pythonLocation: C:\hostedtoolcache\windows\Python\3.12.4\x64
+        pytest test/autorization.py
+      shell: pwsh
+      env:
+        pythonLocation: C:\hostedtoolcache\windows\Python\3.12.4\x64
