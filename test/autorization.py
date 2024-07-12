@@ -12,6 +12,9 @@ import os
 import datetime
 import json
 import pytest
+
+# Укажите путь к исполняемому файлу Chrome-Gost
+chrome_gost_path = "C:\\Users\\pankr\\AppData\\Local\\Chromium\\Application\\chrome.exe"  # Убедитесь, что путь правильный
 # Определите путь к расширению
 extension_path = os.path.join(os.path.dirname(__file__), '../extensions/1.2.13_0.crx')  # Замените на ваше имя расширения
 binary_yandex_driver_file = os.path.join(os.path.dirname(__file__), '../bin/chromedriver.exe')
