@@ -12,8 +12,18 @@ jobs:
 
     - name: Install Chromium-Gost
       run: |
-        cd .\bin
-        .\chromium-gost-125.0.6422.60-windows-amd64-installer.exe /?
+          cd D:\test_all\bin
+          .\chromium-gost-125.0.6422.60-windows-amd64-installer.exe /silent /install /D="C:\CustomInstallPath"
+      shell: pwsh
+
+    - name: Verify installation
+      run: |
+          if (Test-Path "C:\CustomInstallPath\chromium.exe") {
+          Write-Host "Installation successful."
+            } else {
+            Write-Host "Installation failed."
+              exit 1
+              }
       shell: pwsh
 
     - name: Set up Python
