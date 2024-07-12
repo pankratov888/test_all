@@ -12,10 +12,9 @@ import os
 import datetime
 import json
 import pytest
-# Получение путей из переменных окружения
-
-binary_yandex_driver_file = "D:/test_all/bin/chromedriver.exe"
-extension_path = "D:/test_all/extensions/1.2.13_0.crx"
+# Определите путь к расширению
+extension_path = os.path.join(os.path.dirname(__file__), '../extensions/1.2.13_0.crx')  # Замените на ваше имя расширения
+binary_yandex_driver_file = os.path.join(os.path.dirname(__file__), '../bin/chromedriver.exe')
 
 options = webdriver.ChromeOptions()
 
