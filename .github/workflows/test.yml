@@ -24,7 +24,7 @@ jobs:
     - name: Install Chromium-Gost
       run:
         git clone https://github.com/snejok/chromium-gost
-        start chrome.exe
+        cd chromium-gost
       shell: pwsh
 
     - name: Run tests
