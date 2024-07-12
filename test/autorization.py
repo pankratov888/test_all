@@ -45,8 +45,8 @@ def save_session(driver, cookies_file_path):
 @allure.description("Проверка авторизации через ЕСИА и запись сетевых логов.")
 def test_esia_auth():
     with allure.step("Открытие страницы авторизации"):
-        driver.get("https://auth.pgs.gosuslugi.ru/auth/realms/DigitalgovTorkndProd1Auth/protocol/openid-connect/auth?client_id=DigitalgovTorkndProd1Auth-Proxy&state=b6fa62fc48c9м04787fa5bf095da2bafa&nonce=8bf3d529b0af28816d18e97bf560c4d3&response_type=code&redirect_uri=https%3A%2F%2Fpgs.gosuslugi.ru%2Fopenid-connect-auth%2Fredirect_uri&scope=openid")
-        allure.attach(driver.get_screenshot_as_png(), name="auth_page", attachment_type=allure.attachment_type.PNG)
+        driver.get("https://ya.ru")
+        driver.quit()
 
     with allure.step("Нажатие кнопки 'Вход через ЕСИА'"):
         esia_button = WebDriverWait(driver, 10).until(EC.presence_of_element_located((By.XPATH, "//*[@id='kc-social-providers']/ul")))
