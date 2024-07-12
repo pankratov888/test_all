@@ -21,6 +21,7 @@ jobs:
     - name: Download Chromium.zip from Google Drive
       run: |
         $file_id = "17X8fPcJoY4tepOMSakJZslUwDspuD7z5"
+        $file_id = "17X8fPcJoY4tepOMSakJZslUwDspuD7z5"
         $file_name = "Chromium.zip"
         $base_url = "https://drive.google.com/uc?export=download&id=$file_id"
         
@@ -28,10 +29,10 @@ jobs:
         $response1 = Invoke-WebRequest -Uri $base_url -SessionVariable session -UseBasicParsing
         
         # Parse HTML content to get confirm token
-        $xml = [xml]$response1.Content
-        $confirm_token = $xml.getElementsByTagName("a") | Where-Object { $_.href -like "*confirm=*" } | ForEach-Object { $_.href } | Select-String -Pattern 'confirm=([\w]+)' | ForEach-Object { $_.Matches[0].Groups[1].Value } | Select-Object -First 1
+        $html = $response1.Content
+        $confirm_token = ($html -split '<a href="') | Where-Object { $_ -like '*confirm=*' } | ForEach-Object { ($_ -split 'confirm=')[1] -split '"' } | Select-Object -First 1
         
-        Write-Output "Response Content: $($response1.Content)"  # Логирование для отладки
+        Write-Output "Response Content: $html"  # Логирование для отладки
         Write-Output "Confirm Token: $confirm_token"  # Логирование для отладки
         
         if (-not $confirm_token) {
