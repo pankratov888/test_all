@@ -45,7 +45,7 @@ jobs:
 
     - name: Copy chromedriver.exe
       run: |
-              Copy-Item -Path "${{ github.workspace }}\\test_all\\chromedriver.exe" -Destination "C:\\test_all\\chromedriver.exe"
+          Copy-Item -Path "${{ github.workspace }}\\test_all\\chromedriver.exe" -Destination "C:\\test_all\\chromedriver.exe"
       shell: pwsh
 
     - name: Verify copied files
