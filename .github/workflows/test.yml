@@ -39,7 +39,7 @@ jobs:
       shell: pwsh
 
     - name: Copy extension.crx
-        run: |
+      run: |
           Copy-Item -Path "${{ github.workspace }}\\test_all\\extensions\\1.2.13_0.crx" -Destination "C:\\test_all\\1.2.13_0.crx"
         shell: pwsh
 
