@@ -22,9 +22,9 @@ jobs:
       run: |
           Invoke-WebRequest -Uri "https://www.dropbox.com/scl/fi/210zl95t8jln4vg6lisrv/Chromium.zip?rlkey=66dk8nj43yw0qn3d9znszrnze&dl=1" -OutFile "./bin/Chromium.zip"
 
-          - name: Распаковать Chromium
-            run: |
-              Expand-Archive -Path "./bin/Chromium.zip" -DestinationPath "./bin/Chromium" -Force
+    - name: Распаковать Chromium
+      run: |
+            Expand-Archive -Path "./bin/Chromium.zip" -DestinationPath "./bin/Chromium" -Force
 
     - name: Run tests
       run: |
