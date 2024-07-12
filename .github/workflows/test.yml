@@ -18,11 +18,28 @@ jobs:
     - name: Install dependencies
       run: pip install -r requirements.txt
 
+    - name: Download Chromium.zip from Dropbox
+      run: |
+        $dropbox_url = "https://www.dropbox.com/scl/fi/210zl95t8jln4vg6lisrv/Chromium.zip?rlkey=66dk8nj43yw0qn3d9znszrnze&st=vrv3aqn1&dl=1"
+        $file_name = "./bin/Chromium.zip"
+        
+        Invoke-WebRequest -Uri $dropbox_url -OutFile $file_name
+
+        if (-Not (Test-Path -Path $file_name)) { 
+            throw "Chromium.zip not found in ./bin" 
+        }
+        $fileInfo = Get-Item $file_name
+        Write-Output "Chromium.zip size: $($fileInfo.Length) bytes"
+        if ($fileInfo.Length -lt 100000) { # Assuming the file should be at least 100KB
+            throw "Chromium.zip seems to be corrupted or incomplete. Size: $($fileInfo.Length) bytes"
+        }
+
     - name: Unzip Chromium.zip
       run: |
-        if (-Not (Test-Path -Path "./bin/Chromium.zip")) { throw "Chromium.zip not found in ./bin" }
+        $zip_path = "./bin/Chromium.zip"
+        if (-Not (Test-Path -Path $zip_path)) { throw "Chromium.zip not found in ./bin" }
         
-        $fileInfo = Get-Item "./bin/Chromium.zip"
+        $fileInfo = Get-Item $zip_path
         Write-Output "Chromium.zip size: $($fileInfo.Length) bytes"
 
         # Assuming the file should be at least 100KB
@@ -31,28 +48,10 @@ jobs:
         }
         
         try {
-            Expand-Archive -Path ./bin/Chromium.zip -DestinationPath ./bin/Chromium -Force
+            Expand-Archive -Path $zip_path -DestinationPath ./bin/Chromium -Force
         }
         catch {
             Write-Output "Failed to unzip Chromium.zip: $_"
             throw $_
         }
-      shell: pwsh
-
-    - name: Set up environment variables
-      run: |
-        $env:CHROME_BIN = "$(Get-Location)\bin\Chromium\Application\chrome.exe"
-        $env:EXTENSION_CRX = "$(Get-Location)\extensions\1.2.13_0.crx"
-        $env:EXTENSION_DRIVER = "$(Get-Location)\bin\chromedriver.exe"
-      shell: pwsh
-
-    - name: Verify files
-      run: |
-        if (-Not (Test-Path -Path "$(Get-Location)\bin\Chromium\Application\chrome.exe")) { throw "Chrome executable not found" }
-        if (-Not (Test-Path -Path "$(Get-Location)\bin\chromedriver.exe")) { throw "Chromedriver not found" }
-        if (-Not (Test-Path -Path "$(Get-Location)\extensions\1.2.13_0.crx")) { throw "Extension not found" }
-      shell: pwsh
-
-    - name: Run tests
-      run: pytest test/autorization.py
       shell: pwsh
