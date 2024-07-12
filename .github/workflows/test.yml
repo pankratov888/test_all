@@ -27,39 +27,6 @@ jobs:
         .\CryptoPro-5.0.13000  # замените на имя вашего .exe файла
       shell: pwsh
 
-    - name: Copy certificates
-      run: |
-          mkdir -p $HOME/.certs
-          cp .\bin\1.cer $HOME/.certs/
-      shell: pwsh
-
-    - name: Install certificates
-      run: |
-            certutil -addstore "Root" "$HOME\.certs\1.cer"
-      shell: pwsh
-
-    - name: Copy certificates
-      run: |
-        mkdir -p $HOME/.certs
-        cp .\bin\2.cer $HOME/.certs/
-      shell: pwsh
-
-    - name: Install certificates
-      run: |
-        certutil -addstore "Root" "$HOME\.certs\2.cer"
-      shell: pwsh
-
-    - name: Copy certificates
-      run: |
-        mkdir -p $HOME/.certs
-        cp .\bin\3.cer $HOME/.certs/
-      shell: pwsh
-
-    - name: Install certificates
-      run: |
-        certutil -addstore "Root" "$HOME\.certs\3.cer"
-      shell: pwsh
-
     - name: Install dependencies
       run: |
         python -m pip install --upgrade pip
