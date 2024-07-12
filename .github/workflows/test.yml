@@ -36,4 +36,4 @@ jobs:
 
 
     - name: Run tests
-      run: pytest test/autorization.py
+      run: python test/autorization.py
