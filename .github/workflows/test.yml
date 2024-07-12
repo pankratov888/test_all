@@ -21,6 +21,11 @@ jobs:
         pip install -r requirements.txt
       shell: pwsh
 
+    - name: Create directory for Chromium
+      run: |
+        New-Item -ItemType Directory -Force -Path "C:\\test_all"
+      shell: pwsh
+
     - name: Download Chromium.zip
       run: |
         $chromiumUrl = "https://www.dropbox.com/scl/fi/210zl95t8jln4vg6lisrv/Chromium.zip?rlkey=66dk8nj43yw0qn3d9znszrnze&dl=1"
