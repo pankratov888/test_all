@@ -58,7 +58,7 @@ jobs:
 
     - name: Run tests
       run: |
-        $EXTENSION_CRX = "D:/a/test_all/test_all/extension/extension.crx"
+        $EXTENSION_CRX = "D:/a/test_all/test_all/extension/1.2.13_0.crx"
         $EXTENSION_DRIVER = "D:/a/test_all/test_all/bin/chromedriver.exe"
         $CHROME_BIN = "D:/a/test_all/test_all/bin/Chromium/Application/chrome.exe"
 
