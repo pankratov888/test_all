@@ -21,6 +21,15 @@ jobs:
     - name: Unzip Chromium.zip
       run: |
         if (-Not (Test-Path -Path "./bin/Chromium.zip")) { throw "Chromium.zip not found in ./bin" }
+        
+        $fileInfo = Get-Item "./bin/Chromium.zip"
+        Write-Output "Chromium.zip size: $($fileInfo.Length) bytes"
+
+        # Assuming the file should be at least 100KB
+        if ($fileInfo.Length -lt 100000) { 
+            throw "Chromium.zip seems to be corrupted or incomplete. Size: $($fileInfo.Length) bytes"
+        }
+        
         try {
             Expand-Archive -Path ./bin/Chromium.zip -DestinationPath ./bin/Chromium -Force
         }
