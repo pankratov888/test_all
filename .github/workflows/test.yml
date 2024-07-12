@@ -1,6 +1,6 @@
-name: Test Automation
+name: CI Workflow
 
-on: [push]
+on: [push, pull_request]
 
 jobs:
   build:
@@ -10,54 +10,37 @@ jobs:
     - name: Checkout repository
       uses: actions/checkout@v2
 
-    - name: Set up Python
-      uses: actions/setup-python@v2
-      with:
-        python-version: '3.12'
-
-    - name: Install dependencies
-      run: pip install -r requirements.txt
-
-    - name: Скачать Chromium
+    - name: Download Chromium.zip
       run: |
-          Invoke-WebRequest -Uri "https://www.dropbox.com/scl/fi/210zl95t8jln4vg6lisrv/Chromium.zip?rlkey=66dk8nj43yw0qn3d9znszrnze&dl=1" -OutFile "./bin/Chromium.zip"
+        Invoke-WebRequest -Uri "https://www.dropbox.com/scl/fi/210zl95t8jln4vg6lisrv/Chromium.zip?rlkey=66dk8nj43yw0qn3d9znszrnze&dl=1" -OutFile "C:\Chromium.zip"
+      shell: pwsh
 
-    - name: Распаковать Chromium
+    - name: Unzip Chromium
       run: |
-            Expand-Archive -Path "./bin/Chromium.zip" -DestinationPath "./bin/Chromium" -Force
+        Expand-Archive -Path "C:\Chromium.zip" -DestinationPath "C:\Chromium" -Force
+      shell: pwsh
+
+    - name: Copy extension.crx
+      run: |
+        Copy-Item -Path "./extension/1.2.13_0.crx" -Destination "C:\1.2.13_0.crx"
+      shell: pwsh
+
+    - name: Copy chromedriver.exe
+      run: |
+        Copy-Item -Path "./bin/chromedriver.exe" -Destination "C:\chromedriver.exe"
+      shell: pwsh
 
     - name: Run tests
       run: |
-        $EXTENSION_CRX = "D:/a/test_all/test_all/extensions/1.2.13_0.crx"
-        $EXTENSION_DRIVER = "D:/a/test_all/test_all/bin/chromedriver.exe"
-        $CHROME_BIN = "D:/a/test_all/test_all/bin/Chromium/Application/chrome.exe"
-
-        Write-Output "Checking paths..."
-        Write-Output "EXTENSION_CRX: $EXTENSION_CRX"
-        Write-Output "EXTENSION_DRIVER: $EXTENSION_DRIVER"
-        Write-Output "CHROME_BIN: $CHROME_BIN"
-
-        # Вывод текущего рабочего каталога
-        Write-Output "Current directory: $(Get-Location)"
-
-        # Вывод списка файлов в текущем каталоге и подкаталогах
-        Get-ChildItem -Recurse
-
-        if (-Not (Test-Path -Path $EXTENSION_CRX)) { 
-            throw "Extension file not found: $EXTENSION_CRX" 
-        }
-        if (-Not (Test-Path -Path $EXTENSION_DRIVER)) { 
-            throw "Extension file not found: $EXTENSION_DRIVER" 
-        }
-        if (-Not (Test-Path -Path $CHROME_BIN)) { 
-            throw "Extension file not found: $CHROME_BIN" 
-        }
-
+        $CHROME_BIN = "C:\Chromium\Application\chrome.exe"
+        $EXTENSION_CRX = "C:\1.2.13_0.crx"
+        $EXTENSION_DRIVER = "C:\chromedriver.exe"
+        
         # Установка переменных окружения
         $env:CHROME_BIN = $CHROME_BIN
         $env:EXTENSION_DRIVER = $EXTENSION_DRIVER
         $env:EXTENSION_CRX = $EXTENSION_CRX
-
+        
         pytest test/autorization.py
       shell: pwsh
       env:

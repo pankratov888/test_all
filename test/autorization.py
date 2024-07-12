@@ -22,9 +22,6 @@ options = webdriver.ChromeOptions()
 options.add_experimental_option('detach',True)
 options.add_extension(extension_path)
 options.add_argument('--enable-logging')
-options.add_argument("--ignore-certificate-errors")
-options.add_argument("--disable-web-security")
-options.add_argument("--allow-insecure-localhost")
 options.set_capability('goog:loggingPrefs', {'performance': 'ALL'})
 options.add_argument('--force-device-scale-factor=0.75')# Установка масштаба
 service = ChromeService(executable_path=binary_yandex_driver_file)
@@ -34,12 +31,6 @@ driver.implicitly_wait(10)
 driver.maximize_window()
 
 cookies_file_path = os.path.join(r'D:\Allure\Cookies', 'cookies.json')
-
-try:
-    driver = webdriver.Chrome(executable_path=binary_yandex_driver_file, options=options)
-    print("Браузер успешно открыт.")
-except Exception as e:
-    print(f"Ошибка при открытии браузера: {e}")
 # Функция для сохранения сессии (куков)
 def save_session(driver, cookies_file_path):
     cookies = driver.get_cookies()
