@@ -67,7 +67,7 @@ jobs:
         $CHROME_BIN = "./bin/Chromium/Application/chrome.exe"
         if (-Not (Test-Path -Path $CHROME_BIN)) { throw "Extension file not found: $CHROME_BIN" }
     
-    # Установка переменных окружения
+        # Установка переменных окружения
         $env:CHROME_BIN = $CHROME_BIN
         $env:EXTENSION_DRIVER = $EXTENSION_DRIVER
         $env:EXTENSION_CRX = $EXTENSION_CRX
