@@ -13,7 +13,7 @@ jobs:
     - name: Install Chromium-Gost
       run: |
         cd .\bin
-        .\chromium-gost-125.0.6422.60-windows-amd64-installer.exe /silent /install /D="C:\CustomInstallPath"
+        .\chromium-gost-125.0.6422.60-windows-amd64-installer.exe /?
       shell: pwsh
 
     - name: Set up Python
