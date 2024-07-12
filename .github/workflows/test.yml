@@ -20,9 +20,9 @@ jobs:
         Expand-Archive -Path "C:\Chromium.zip" -DestinationPath "C:\Chromium" -Force
       shell: pwsh
 
-    - name: Copy extension.crx
+    - name: Copy 1.2.13_0.crx
       run: |
-        Copy-Item -Path "./extension/1.2.13_0.crx" -Destination "C:\1.2.13_0.crx"
+        Copy-Item -Path "./extensions/1.2.13_0.crx" -Destination "C:\1.2.13_0.crx"
       shell: pwsh
 
     - name: Copy chromedriver.exe
