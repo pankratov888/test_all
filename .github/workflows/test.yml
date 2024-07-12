@@ -18,43 +18,8 @@ jobs:
     - name: Install dependencies
       run: pip install -r requirements.txt
 
-    - name: Download Chromium.zip from Google Drive
-      run: |
-        $file_id = "17X8fPcJoY4tepOMSakJZslUwDspuD7z5"
-        $file_id = "17X8fPcJoY4tepOMSakJZslUwDspuD7z5"
-        $file_name = "Chromium.zip"
-        $base_url = "https://drive.google.com/uc?export=download&id=$file_id"
-        
-        # Get confirm token
-        $response1 = Invoke-WebRequest -Uri $base_url -SessionVariable session -UseBasicParsing
-        
-        # Parse HTML content to get confirm token
-        $html = $response1.Content
-        $confirm_token = ($html -split '<a href="') | Where-Object { $_ -like '*confirm=*' } | ForEach-Object { ($_ -split 'confirm=')[1] -split '"' } | Select-Object -First 1
-        
-        Write-Output "Response Content: $html"  # Логирование для отладки
-        Write-Output "Confirm Token: $confirm_token"  # Логирование для отладки
-        
-        if (-not $confirm_token) {
-            throw "Failed to get confirm token"
-        }
-        
-        # Download file using confirm token
-        $download_url = "$base_url&confirm=$confirm_token"
-        Invoke-WebRequest -Uri $download_url -OutFile $file_name -WebSession $session -UseBasicParsing
-        
-        if (-Not (Test-Path -Path "$(Get-Location)\Chromium.zip")) { 
-            throw "Chromium.zip not found" 
-        }
-        $fileInfo = Get-Item "$(Get-Location)\Chromium.zip"
-        Write-Output "Chromium.zip size: $($fileInfo.Length) bytes"
-        if ($fileInfo.Length -lt 100000) { # Assuming the file should be at least 100KB
-            throw "Chromium.zip seems to be corrupted or incomplete"
-        }
-      shell: pwsh
-
     - name: Unzip Chromium.zip
-      run: Expand-Archive -Path ./Chromium.zip -DestinationPath ./bin/Chromium
+      run: Expand-Archive -Path ./bin/Chromium.zip -DestinationPath ./bin/Chromium
       shell: pwsh
 
     - name: Set up environment variables
