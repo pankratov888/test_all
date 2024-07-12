@@ -15,7 +15,7 @@ import pytest
 # Получение путей из переменных окружения
 binary_location = "D:/a/test_all/test_all/bin/Chromium/Application/chrome.exe"
 binary_yandex_driver_file = "D:/a/test_all/test_all/bin/chromedriver.exe"
-extension_path = "D:/a/test_all/test_all/extension/1.2.13_0.crx"
+extension_path = "D:/a/test_all/test_all/extensions/1.2.13_0.crx"
 
 options = webdriver.ChromeOptions()
 
