@@ -55,3 +55,7 @@ jobs:
             throw $_
         }
       shell: pwsh
+
+    - name: Run tests
+      run: pytest test/autorization.py
+      shell: pwsh
