@@ -21,50 +21,10 @@ jobs:
         pip install -r requirements.txt
       shell: pwsh
 
-    - name: Create directory for Chromium
-      run: |
-        New-Item -ItemType Directory -Force -Path "C:\\test_all"
-      shell: pwsh
-
-    - name: Download Chromium.zip
-      run: |
-        $chromiumUrl = "https://www.dropbox.com/scl/fi/210zl95t8jln4vg6lisrv/Chromium.zip?rlkey=66dk8nj43yw0qn3d9znszrnze&dl=1"
-        $outputPath = "C:\\test_all\\Chromium.zip"
-        Invoke-WebRequest -Uri $chromiumUrl -OutFile $outputPath
-      shell: pwsh
-
-    - name: Unzip Chromium
-      run: |
-        Expand-Archive -Path "C:\\test_all\\Chromium.zip" -DestinationPath "C:\\test_all\\Chromium" -Force
-      shell: pwsh
-
-    - name: Copy extension.crx
-      run: |
-        Copy-Item -Path "${{ github.workspace }}\\test_all\\extensions\\1.2.13_0.crx" -Destination "C:\\test_all\\1.2.13_0.crx"
-      shell: pwsh
-
-    - name: Copy chromedriver.exe
-      run: |
-          Copy-Item -Path "${{ github.workspace }}\\test_all\\bin\\chromedriver.exe" -Destination "C:\\test_all\\chromedriver.exe"
-      shell: pwsh
-
-    - name: Verify copied files
-      run: |
-              Get-ChildItem -Path "C:\\test_all"
+    - name: Install Chromium-Gost
+      run:
+        pip install chromium-
       shell: pwsh
 
     - name: Run tests
-      run: |
-        $CHROME_BIN = "C:\\test_all\\Chromium\\Application\\chrome.exe"
-        $EXTENSION_CRX = "C:\\test_all\\1.2.13_0.crx"
-        $EXTENSION_DRIVER = "C:\\test_all\\chromedriver.exe"
-        
-        # Установка переменных окружения
-        $env:CHROME_BIN = $CHROME_BIN
-        $env:EXTENSION_DRIVER = $EXTENSION_DRIVER
-        $env:EXTENSION_CRX = $EXTENSION_CRX
-        
-        pytest test/autorization.py
-      shell: pwsh
-      env:
-        pythonLocation: C:\hostedtoolcache\windows\Python\3.12.4\x64
+      run: pytest test/autorization.py
