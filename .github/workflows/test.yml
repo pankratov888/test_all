@@ -21,6 +21,12 @@ jobs:
         .\chromium-gost-125.0.6422.60-windows-amd64-installer  # замените на имя вашего .exe файла
       shell: pwsh
 
+    - name: Install Crypto-pro
+      run: |
+        cd .\bin
+        .\CryptoPro-5.0.13000  # замените на имя вашего .exe файла
+      shell: pwsh
+
     - name: Install dependencies
       run: |
         python -m pip install --upgrade pip
