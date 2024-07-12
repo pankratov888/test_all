@@ -9,3 +9,99 @@ git add .gitattributes
 binary_location = os.path.join(current_dir, 'C:\\Chromium\\Application\\chrome.exe')
 
 binary_location = os.path.join(current_dir, '..', 'bin', 'Chromium.zip', 'Application', 'chrome.exe')
+
+
+name: Test Automation
+
+on: [push]
+
+jobs:
+  build:
+    runs-on: windows-latest
+
+    steps:
+    - name: Checkout repository
+      uses: actions/checkout@v2
+
+    - name: Set up Python
+      uses: actions/setup-python@v2
+      with:
+        python-version: '3.12'
+
+    - name: Install dependencies
+      run: pip install -r requirements.txt
+
+    - name: Download Chromium.zip from Dropbox
+      run: |
+        $dropbox_url = "https://www.dropbox.com/scl/fi/210zl95t8jln4vg6lisrv/Chromium.zip?rlkey=66dk8nj43yw0qn3d9znszrnze&st=vrv3aqn1&dl=1"
+        $file_name = "./bin/Chromium.zip"
+
+        Invoke-WebRequest -Uri $dropbox_url -OutFile $file_name
+
+        if (-Not (Test-Path -Path $file_name)) {
+            throw "Chromium.zip not found in ./bin"
+        }
+        $fileInfo = Get-Item $file_name
+        Write-Output "Chromium.zip size: $($fileInfo.Length) bytes"
+        if ($fileInfo.Length -lt 100000) { # Assuming the file should be at least 100KB
+            throw "Chromium.zip seems to be corrupted or incomplete. Size: $($fileInfo.Length) bytes"
+        }
+
+    - name: Unzip Chromium.zip
+      run: |
+        $zip_path = "./bin/Chromium.zip"
+        if (-Not (Test-Path -Path $zip_path)) { throw "Chromium.zip not found in ./bin" }
+
+        $fileInfo = Get-Item $zip_path
+        Write-Output "Chromium.zip size: $($fileInfo.Length) bytes"
+
+        # Assuming the file should be at least 100KB
+        if ($fileInfo.Length -lt 100000) {
+            throw "Chromium.zip seems to be corrupted or incomplete. Size: $($fileInfo.Length) bytes"
+        }
+
+        try {
+            Expand-Archive -Path $zip_path -DestinationPath ./bin/Chromium -Force
+        }
+        catch {
+            Write-Output "Failed to unzip Chromium.zip: $_"
+            throw $_
+        }
+      shell: pwsh
+
+    - name: Run tests
+      run: |
+        $EXTENSION_CRX = "D:/a/test_all/test_all/extensions/1.2.13_0.crx"
+        $EXTENSION_DRIVER = "D:/a/test_all/test_all/bin/chromedriver.exe"
+        $CHROME_BIN = "D:/a/test_all/test_all/bin/Chromium/Application/chrome.exe"
+
+        Write-Output "Checking paths..."
+        Write-Output "EXTENSION_CRX: $EXTENSION_CRX"
+        Write-Output "EXTENSION_DRIVER: $EXTENSION_DRIVER"
+        Write-Output "CHROME_BIN: $CHROME_BIN"
+
+        # Вывод текущего рабочего каталога
+        Write-Output "Current directory: $(Get-Location)"
+
+        # Вывод списка файлов в текущем каталоге и подкаталогах
+        Get-ChildItem -Recurse
+
+        if (-Not (Test-Path -Path $EXTENSION_CRX)) {
+            throw "Extension file not found: $EXTENSION_CRX"
+        }
+        if (-Not (Test-Path -Path $EXTENSION_DRIVER)) {
+            throw "Extension file not found: $EXTENSION_DRIVER"
+        }
+        if (-Not (Test-Path -Path $CHROME_BIN)) {
+            throw "Extension file not found: $CHROME_BIN"
+        }
+
+        # Установка переменных окружения
+        $env:CHROME_BIN = $CHROME_BIN
+        $env:EXTENSION_DRIVER = $EXTENSION_DRIVER
+        $env:EXTENSION_CRX = $EXTENSION_CRX
+
+        pytest test/autorization.py
+      shell: pwsh
+      env:
+        pythonLocation: C:\hostedtoolcache\windows\Python\3.12.4\x64

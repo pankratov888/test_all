@@ -18,43 +18,13 @@ jobs:
     - name: Install dependencies
       run: pip install -r requirements.txt
 
-    - name: Download Chromium.zip from Dropbox
+    - name: Скачать Chromium
       run: |
-        $dropbox_url = "https://www.dropbox.com/scl/fi/210zl95t8jln4vg6lisrv/Chromium.zip?rlkey=66dk8nj43yw0qn3d9znszrnze&st=vrv3aqn1&dl=1"
-        $file_name = "./bin/Chromium.zip"
-        
-        Invoke-WebRequest -Uri $dropbox_url -OutFile $file_name
+          Invoke-WebRequest -Uri "https://www.dropbox.com/scl/fi/210zl95t8jln4vg6lisrv/Chromium.zip?rlkey=66dk8nj43yw0qn3d9znszrnze&dl=1" -OutFile "./bin/Chromium.zip"
 
-        if (-Not (Test-Path -Path $file_name)) { 
-            throw "Chromium.zip not found in ./bin" 
-        }
-        $fileInfo = Get-Item $file_name
-        Write-Output "Chromium.zip size: $($fileInfo.Length) bytes"
-        if ($fileInfo.Length -lt 100000) { # Assuming the file should be at least 100KB
-            throw "Chromium.zip seems to be corrupted or incomplete. Size: $($fileInfo.Length) bytes"
-        }
-
-    - name: Unzip Chromium.zip
-      run: |
-        $zip_path = "./bin/Chromium.zip"
-        if (-Not (Test-Path -Path $zip_path)) { throw "Chromium.zip not found in ./bin" }
-        
-        $fileInfo = Get-Item $zip_path
-        Write-Output "Chromium.zip size: $($fileInfo.Length) bytes"
-
-        # Assuming the file should be at least 100KB
-        if ($fileInfo.Length -lt 100000) { 
-            throw "Chromium.zip seems to be corrupted or incomplete. Size: $($fileInfo.Length) bytes"
-        }
-        
-        try {
-            Expand-Archive -Path $zip_path -DestinationPath ./bin/Chromium -Force
-        }
-        catch {
-            Write-Output "Failed to unzip Chromium.zip: $_"
-            throw $_
-        }
-      shell: pwsh
+          - name: Распаковать Chromium
+            run: |
+              Expand-Archive -Path "./bin/Chromium.zip" -DestinationPath "./bin/Chromium" -Force
 
     - name: Run tests
       run: |
