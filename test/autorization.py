@@ -14,8 +14,8 @@ import json
 import pytest
 # Получение путей из переменных окружения
 
-binary_yandex_driver_file = "D:/a/test_all/bin/chromedriver.exe"
-extension_path = "D:/a/test_all/extensions/1.2.13_0.crx"
+binary_yandex_driver_file = "D:/test_all/bin/chromedriver.exe"
+extension_path = "D:/test_all/extensions/1.2.13_0.crx"
 
 options = webdriver.ChromeOptions()
 
