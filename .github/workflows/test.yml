@@ -57,5 +57,16 @@ jobs:
       shell: pwsh
 
     - name: Run tests
-      run: pytest test/autorization.py
+      run: |
+        $EXTENSION_CRX = "./extension/extension.crx"
+        if (-Not (Test-Path -Path $EXTENSION_CRX)) { throw "Extension file not found: $EXTENSION_DRIVER" }
+         
+        $EXTENSION_DRIVER = "./bin/chromedriver.exe"
+        if (-Not (Test-Path -Path $EXTENSION_DRIVER)) { throw "Extension file not found: $EXTENSION_DRIVER" }
+        
+        $CHROME_BIN = "./bin/Chromium/Application/chrome.exe" 
+        if (-Not (Test-Path -Path $CHROME_BIN)) { throw "Extension file not found: $CHROME_BIN" }
+         
+        
+        pytest test/autorization.py --extension-path $extension_path
       shell: pwsh
