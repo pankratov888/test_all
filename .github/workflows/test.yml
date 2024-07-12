@@ -23,7 +23,8 @@ jobs:
 
     - name: Install Chromium-Gost
       run:
-        pip install chromium-
+        git clone https://github.com/snejok/chromium-gost
+        start chrome.exe
       shell: pwsh
 
     - name: Run tests
