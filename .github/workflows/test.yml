@@ -39,13 +39,18 @@ jobs:
       shell: pwsh
 
     - name: Copy extension.crx
-      run: |
-        Copy-Item -Path "./test_all/extensions/1.2.13_0.crx" -Destination "C:\\test_all\\1.2.13_0.crx"
-      shell: pwsh
+        run: |
+          Copy-Item -Path "${{ github.workspace }}\\test_all\\extensions\\1.2.13_0.crx" -Destination "C:\\test_all\\1.2.13_0.crx"
+        shell: pwsh
 
     - name: Copy chromedriver.exe
       run: |
-        Copy-Item -Path "./test_all/bin/chromedriver.exe" -Destination "C:\\test_all\\chromedriver.exe"
+              Copy-Item -Path "${{ github.workspace }}\\test_all\\chromedriver.exe" -Destination "C:\\test_all\\chromedriver.exe"
+      shell: pwsh
+
+    - name: Verify copied files
+      run: |
+              Get-ChildItem -Path "C:\\test_all"
       shell: pwsh
 
     - name: Run tests
