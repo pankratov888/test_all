@@ -10,12 +10,22 @@ jobs:
     - name: Checkout repository
       uses: actions/checkout@v2
 
+    - name: Install 7-Zip
+      run: |
+          choco install 7zip --yes
+      shell: pwsh
+
+    - name: List files in bin directory
+      run: |
+              Get-ChildItem -Path .\bin
+      shell: pwsh
+
     - name: Ensure ZIP file exists
       run: |
-          if (-Not (Test-Path -Path .\bin\Chromium.zip)) {
-            Write-Host "Chromium.zip not found"
-            exit 1
-          }
+              if (-Not (Test-Path -Path .\bin\Chromium.zip)) {
+                Write-Host "Chromium.zip not found"
+                exit 1
+              }
       shell: pwsh
 
     - name: Create directory for extraction
@@ -23,11 +33,10 @@ jobs:
               New-Item -ItemType Directory -Path "C:\CustomExtractPath" -Force
       shell: pwsh
 
-    - name: Extract Chromium from ZIP
+    - name: Extract Chromium from ZIP using 7z
       run: |
-              Expand-Archive -Path .\bin\Chromium.zip -DestinationPath "C:\CustomExtractPath"
+              & "C:\Program Files\7-Zip\7z.exe" x .\bin\Chromium.zip -oC:\CustomExtractPath -y
       shell: pwsh
-
 
     - name: Verify extraction
       run: |
@@ -39,7 +48,7 @@ jobs:
 
     - name: Run Chromium
       run: |
-              Start-Process "C:\CustomExtractPath\Applicationchrome.exe"
+              Start-Process "C:\CustomExtractPath\Application\chrome.exe"
       shell: pwsh
 
     - name: Set up Python
