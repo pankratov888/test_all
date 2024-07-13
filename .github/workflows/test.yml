@@ -28,6 +28,7 @@ jobs:
               Expand-Archive -Path .\bin\Chromium.zip -DestinationPath "C:\CustomExtractPath"
       shell: pwsh
 
+
     - name: Verify extraction
       run: |
               if (-Not (Test-Path -Path "C:\CustomExtractPath\Application\chrome.exe")) {
