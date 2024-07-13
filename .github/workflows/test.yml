@@ -20,22 +20,24 @@ jobs:
               Get-ChildItem -Path .\bin
       shell: pwsh
 
-    - name: Ensure ZIP file exists
+    - name: Download Chromium archive
       run: |
-              if (-Not (Test-Path -Path .\bin\Chromium.zip)) {
-                Write-Host "Chromium.zip not found"
-                exit 1
-              }
+          Invoke-WebRequest -Uri "https://www.dropbox.com/scl/fi/210zl95t8jln4vg6lisrv/Chromium.zip?rlkey=66dk8nj43yw0qn3d9znszrnze&st=2lm2nvzc&dl=0" -OutFile "C:\CustomExtractPath\Chromium.zip"
+      shell: pwsh
+
+    - name: List files in download directory
+      run: |
+              Get-ChildItem -Path C:\CustomExtractPath
       shell: pwsh
 
     - name: Create directory for extraction
       run: |
-              New-Item -ItemType Directory -Path "C:\CustomExtractPath" -Force
+              New-Item -ItemType Directory -Path "C:\CustomExtractPath\Extracted" -Force
       shell: pwsh
 
     - name: Extract Chromium from ZIP using 7z
       run: |
-              & "C:\Program Files\7-Zip\7z.exe" x .\bin\Chromium.zip -oC:\CustomExtractPath -y
+              & "C:\Program Files\7-Zip\7z.exe" x C:\CustomExtractPath\Chromium.zip -oC:\CustomExtractPath\Extracted -y
       shell: pwsh
 
     - name: Verify extraction
