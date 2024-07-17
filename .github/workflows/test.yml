@@ -36,7 +36,10 @@ jobs:
           sudo bash install.sh  # Если install.sh является установочным скриптом
 
       - name: Переименовать сертификаты
-        run: mv ./bin/*.cer ./bin/*.crt
+        run: |
+          for cert in ./bin/*.cer; do
+            mv "$cert" "${cert%.cer}.crt"
+          done
 
       - name: Установить сертификаты
         run: |

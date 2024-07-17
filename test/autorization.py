@@ -11,6 +11,10 @@ options = Options()
 # Пример: открыть браузер в режиме без головы (без графического интерфейса)
 options.add_argument("--headless")
 
+# Путь к расширению
+extension_path = './extensions/1.2.13_0.crx'
+options.add_extension(extension_path)
+
 # Инициализация веб-драйвера с использованием ChromeDriverManager
 service = ChromeService(ChromeDriverManager().install())
 browser = webdriver.Chrome(service=service, options=options)
