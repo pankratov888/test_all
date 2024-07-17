@@ -16,7 +16,7 @@ try:
     chrome_gost_path = "C:\\Users\\pankr\\AppData\\Local\\Chromium\\Application\\chrome.exe"  # Убедитесь, что путь правильный
     # Определите путь к расширению
     extension_path = os.path.join(os.path.dirname(__file__), '../extensions/1.2.13_0.crx')  # Замените на ваше имя расширения
-    binary_yandex_driver_file = os.path.join(os.path.dirname(__file__), '../bin/chromedriver.exe')
+    binary_yandex_driver_file = os.path.join(os.path.dirname(__file__), '../bin/chromedriver')
 
     options = Options()
     options.binary_location = chrome_gost_path
