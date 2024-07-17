@@ -30,8 +30,8 @@ jobs:
 
       - name: Extract and install linux-amd64_deb.tgz
         run: |
-          tar -xvzf ./bin/linux-amd64_deb.tgz -C ./bin
-          sudo dpkg -i ./bin/linux-amd64.deb
+            tar -xvzf ./bin/linux-amd64_deb.tgz -C ./bin
+            sudo dpkg -i ./bin/linux-amd64_deb/*.deb
 
       - name: Install dependencies
         run: |
