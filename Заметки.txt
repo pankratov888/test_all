@@ -294,3 +294,62 @@ jobs:
     - name: Run tests
       run: python test/autorization.py
 
+
+
+
+
+новый
+
+name: Install and Run Chromium-Gost with Selenium
+
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  run-chromium-gost:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v2
+
+      - name: List files in root directory
+        run: |
+          ls -la
+
+      - name: List files in bin directory
+        run: |
+          ls -la bin
+
+      - name: Install dependencies
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y xvfb python3-pip ./bin/chromium-gost-126.0.6478.126-linux-amd64.deb
+          pip3 install webdriver-manager
+
+      - name: Start Xvfb
+        run: |
+          Xvfb :99 -ac &
+          export DISPLAY=:99
+
+      - name: Verify installation
+        run: |
+          which chromium-browser
+          chromium-browser --version
+
+      - name: Run Chromium-Gost
+        run: |
+          nohup chromium-browser &
+
+      - name: Install Selenium
+        run: |
+          pip3 install selenium
+
+      - name: Run Selenium Test
+        env:
+            DISPLAY: :99
+        run: |
+            python3 test/autorization.py
+
