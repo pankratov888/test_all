@@ -215,3 +215,82 @@ def test_esia_auth():
     print(f"Файл '{log_file_path}' с результатом теста создан.")
     time.sleep(3)
     driver.quit()
+
+
+
+    name: CI Workflow
+
+on: [push, pull_request]
+
+jobs:
+  build:
+    runs-on: windows-latest
+
+
+    steps:
+    - name: Checkout repository
+      uses: actions/checkout@v2
+
+    - name: Install 7-Zip
+      run: |
+          choco install 7zip --yes
+      shell: pwsh
+
+    - name: List files in bin directory
+      run: |
+              Get-ChildItem -Path .\bin
+      shell: pwsh
+
+    - name: Download Chromium archive
+      run: |
+          Invoke-WebRequest -Uri "https://www.dropbox.com/scl/fi/210zl95t8jln4vg6lisrv/Chromium.zip?rlkey=66dk8nj43yw0qn3d9znszrnze&st=2lm2nvzc&dl=0" -OutFile "C:\CustomExtractPath\Chromium.zip"
+      shell: pwsh
+
+    - name: List files in download directory
+      run: |
+              Get-ChildItem -Path C:\CustomExtractPath
+      shell: pwsh
+
+    - name: Create directory for extraction
+      run: |
+              New-Item -ItemType Directory -Path "C:\CustomExtractPath\Extracted" -Force
+      shell: pwsh
+
+    - name: Extract Chromium from ZIP using 7z
+      run: |
+              & "C:\Program Files\7-Zip\7z.exe" x C:\CustomExtractPath\Chromium.zip -oC:\CustomExtractPath\Extracted -y
+      shell: pwsh
+
+    - name: Verify extraction
+      run: |
+              if (-Not (Test-Path -Path "C:\CustomExtractPath\Application\chrome.exe")) {
+                Write-Host "chrome.exe not found after extraction"
+                exit 1
+              }
+      shell: pwsh
+
+    - name: Run Chromium
+      run: |
+              Start-Process "C:\CustomExtractPath\Application\chrome.exe"
+      shell: pwsh
+
+    - name: Set up Python
+      uses: actions/setup-python@v2
+      with:
+        python-version: '3.12'
+
+    - name: Install Crypto-pro
+      run: |
+        cd .\bin
+        .\CryptoPro-5.0.13000.exe
+      shell: pwsh
+
+    - name: Install dependencies
+      run: |
+        python -m pip install --upgrade pip
+        pip install -r requirements.txt
+      shell: pwsh
+
+    - name: Run tests
+      run: python test/autorization.py
+
