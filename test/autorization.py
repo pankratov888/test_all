@@ -10,6 +10,10 @@ from selenium.webdriver.common.by import By
 options = Options()
 # Пример: открыть браузер в режиме без головы (без графического интерфейса)
 options.add_argument("--headless")
+options.add_argument("--ignore-certificate-errors")
+options.add_argument("--allow-insecure-localhost")
+options.add_argument("--disable-web-security")
+options.add_argument("--disable-gpu")
 
 # Инициализация веб-драйвера с использованием ChromeDriverManager
 service = ChromeService(ChromeDriverManager().install())
