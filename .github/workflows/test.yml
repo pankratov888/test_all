@@ -26,6 +26,7 @@ jobs:
           sudo apt-get update
           sudo apt-get install -y xvfb python3-pip ./bin/chromium-gost-126.0.6478.126-linux-amd64.deb
           pip3 install --upgrade urllib3 chardet
+          pip3 install webdriver-manager  # Добавьте эту строку
 
       - name: Install dependencies
         run: |
