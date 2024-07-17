@@ -16,7 +16,7 @@ import pytest
 options = webdriver.ChromeOptions()
 
 options.add_experimental_option('detach',True)
-options.add_extension(extension_path)
+
 options.add_argument('--enable-logging')
 options.set_capability('goog:loggingPrefs', {'performance': 'ALL'})
 options.add_argument('--force-device-scale-factor=0.75')# Установка масштаба
@@ -24,7 +24,7 @@ options.add_argument('--force-device-scale-factor=0.75')# Установка м�
 # Укажите путь к вашему chromedriver
 chromedriver_path = "./bin/chromedriver"
 extension_path = "./bin/extensions/1.2.13_0.crx"
-service = ChromeService(extension_path=chromedriver_path)
+service = ChromeService(chromedriver_path)
 # Создайте сервис с указанием пути к chromedriver
 
 
