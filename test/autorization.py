@@ -20,14 +20,16 @@ try:
     browser.get("http://ya.ru")
     print("Страница загружена.")
 
-    # Проверка наличия элемента
-    element_xpath = "/html/body/main/div[3]/form/div[3]/div/div[1]"
-    WebDriverWait(browser, 10).until(EC.visibility_of_element_located((By.XPATH, element_xpath)))
+    # Вывод HTML страницы для отладки
+    print(browser.page_source)
+
+    # Проверка наличия элемента по атрибуту data-hydration-id
+    hydration_id = "576211ff6da7ce6ac7272570289f34fc.0"
+    WebDriverWait(browser, 20).until(EC.visibility_of_element_located((By.CSS_SELECTOR, f"[data-hydration-id='{hydration_id}']")))
     print("Элемент отображается на странице.")
 
 except Exception as e:
     print(f"Ошибка: {e}")
 
 finally:
-    # Закрытие драйвера
     browser.quit()
