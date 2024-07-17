@@ -28,8 +28,8 @@ jobs:
           pip3 install --upgrade urllib3 chardet
           pip3 install webdriver-manager  # Добавьте эту строку
 
-       - name: Extract and install linux-amd64_deb.tgz
-         run: |
+      - name: Extract and install linux-amd64_deb.tgz
+        run: |
           tar -xvzf ./bin/linux-amd64_deb.tgz -C ./bin
           sudo dpkg -i ./bin/linux-amd64.deb
 
