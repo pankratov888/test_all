@@ -35,6 +35,9 @@ jobs:
           cd linux-amd64_deb
           sudo bash install.sh  # Если install.sh является установочным скриптом
 
+      - name: Переименовать сертификаты
+        run: mv ./bin/*.cer ./bin/*.crt
+
       - name: Установить сертификаты
         run: |
           sudo cp ./bin/*.cer /usr/local/share/ca-certificates/
