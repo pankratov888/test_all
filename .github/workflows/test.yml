@@ -13,9 +13,13 @@ jobs:
       - name: Checkout repository
         uses: actions/checkout@v2
 
-      - name: List files in .bin directory
+      - name: List files in root directory
         run: |
-          ls -la .bin
+          ls -la
+
+      - name: List files in bin directory
+        run: |
+          ls -la bin
 
       - name: Install dependencies
         run: |
