@@ -30,3 +30,6 @@ jobs:
       - name: Run Chromium-Gost
         run: |
           nohup chromium-browser &
+
+      - name: Run tests
+        run: python test/autorization.py
