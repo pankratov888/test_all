@@ -15,7 +15,7 @@ jobs:
 
       - name: List files in bin directory
         run: |
-          ls -la .bin
+          ls -la bin
 
       - name: Install dependencies
         run: |
