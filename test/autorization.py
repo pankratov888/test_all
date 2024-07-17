@@ -1,16 +1,15 @@
 from selenium import webdriver
-from selenium.webdriver.chrome.service import Service as ChromeService
-from webdriver_manager.chrome import ChromeDriverManager
+from selenium.webdriver.chrome.service import Service
 
-# Установка ChromeDriver
-service = ChromeService(executable_path=ChromeDriverManager().install())
+# Укажите путь к вашему chromedriver
+chromedriver_path = "./bin/chromedriver"
 
-# Инициализация веб-драйвера
+# Создайте сервис с указанием пути к chromedriver
+service = Service(chromedriver_path)
+
+# Создайте экземпляр браузера с использованием сервиса
 driver = webdriver.Chrome(service=service)
 
-# Ваш тестовый код
 driver.get("http://example.com")
 print(driver.title)
-
-# Закрытие драйвера
 driver.quit()
