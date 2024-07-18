@@ -10,7 +10,12 @@ from selenium.webdriver.common.by import By
 options = Options()
 # Пример: открыть браузер в режиме без головы (без графического интерфейса)
 #options.add_argument("--headless")
-
+options.add_argument('--no-sandbox')
+options.add_argument('--disable-dev-shm-usage')
+options.add_argument('--disable-gpu')
+options.add_argument('--window-size=1920x1080')
+options.add_argument('--ignore-certificate-errors')
+options.add_argument('--allow-insecure-localhost')
 # Путь к расширению
 extension_path = './extensions/1.2.13_0.crx'
 options.add_extension(extension_path)

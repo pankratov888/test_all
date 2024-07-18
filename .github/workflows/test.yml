@@ -35,16 +35,13 @@ jobs:
           cd linux-amd64_deb
           sudo bash install.sh  # Если install.sh является установочным скриптом
 
-      - name: Переименовать сертификаты
+      - name: Проверка сертификатов и установка
         run: |
-          for cert in ./bin/*.cer; do
-            mv "$cert" "${cert%.cer}.crt"
-          done
-
-      - name: Установить сертификаты
-        run: |
-          sudo cp ./bin/*.crt /usr/local/share/ca-certificates/
-          sudo update-ca-certificates
+            for cert in ./bin/*.cer; do
+              openssl x509 -in "$cert" -out "${cert%.cer}.crt"
+            done
+            sudo cp ./bin/*.crt /usr/local/share/ca-certificates/
+            sudo update-ca-certificates
 
       - name: Install dependencies
         run: |
