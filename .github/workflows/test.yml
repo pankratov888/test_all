@@ -84,6 +84,9 @@ jobs:
           # Предположим, что все файлы плагина были извлечены в /opt/chromium-gost/plugin/
           sudo chmod -R 755 /opt/chromium-gost/plugin/
           # Если плагин имеет определенные команды для активации, их нужно добавить здесь
+          # Установите .deb файлы
+          sudo dpkg -i /opt/chromium-gost/plugin/cades-linux-ia32/*.deb
+          sudo apt-get install -f
 
 
       - name: Run Selenium tests
