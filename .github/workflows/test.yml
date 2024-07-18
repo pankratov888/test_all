@@ -52,10 +52,17 @@ jobs:
       - name: Extract CryptoPro EDS Browser plugin
         run: |
           sudo mkdir -p /opt/chromium-gost/plugin
-          sudo tar -xvf ./bin/cades-linux-amd64.tar -C /opt/chromium-gost/plugin/
-               sudo dpkg -i cprocsp-pki-cades-64_2.0.14892-1_amd64.deb
-               sudo dpkg -i cprocsp-pki-plugin-64_2.0.14892-1_amd64.deb
-               sudo apt-get install -f -y  # Установите все зависимости
+
+      - name: Extract CryptoPro EDS Browser plugin
+        run: |
+          sudo tar -xvf ./bin/cades-linux-amd64.tar -C /opt/chromium-gost/plugin
+
+      - name: Install CryptoPro EDS Browser plugin packages
+        run: |
+          cd /opt/chromium-gost/plugin/cades-linux-amd64
+          sudo dpkg -i cprocsp-pki-cades-64_2.0.14892-1_amd64.deb
+          sudo dpkg -i cprocsp-pki-plugin-64_2.0.14892-1_amd64.deb
+          sudo apt-get install -f -y
             
 
       - name: Проверка сертификатов и установка
