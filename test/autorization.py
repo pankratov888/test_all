@@ -17,7 +17,7 @@ options.add_argument('--window-size=1920x1080')
 options.add_argument('--ignore-certificate-errors')
 options.add_argument('--allow-insecure-localhost')
 # Путь к расширению
-extension_path = './Extensions/1.2.13_0.crx'
+extension_path = './extensions/1.2.13_0.crx'
 options.add_extension(extension_path)
 
 # Инициализация веб-драйвера с использованием ChromeDriverManager
