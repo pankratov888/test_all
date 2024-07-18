@@ -62,13 +62,13 @@ jobs:
         run: |
             if [ -d "/opt/chromium-gost/plugin/cades-linux-amd64" ]; then
               cd /opt/chromium-gost/plugin/cades-linux-amd64
-            sudo dpkg -i cprocsp-pki-cades-64_2.0.14892-1_amd64.deb
-            sudo dpkg -i cprocsp-pki-plugin-64_2.0.14892-1_amd64.deb
-            sudo apt-get install -f -y  # Установите все зависимости
-          else
-          echo "Directory /opt/chromium-gost/plugin/cades-linux-amd64 does not exist"
-          exit 1
-          fi
+               sudo dpkg -i cprocsp-pki-cades-64_2.0.14892-1_amd64.deb
+               sudo dpkg -i cprocsp-pki-plugin-64_2.0.14892-1_amd64.deb
+               sudo apt-get install -f -y  # Установите все зависимости
+            else
+               echo "Directory /opt/chromium-gost/plugin/cades-linux-amd64 does not exist"
+               exit 1
+            fi
 
       - name: Проверка сертификатов и установка
         run: |
