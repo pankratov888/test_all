@@ -102,7 +102,7 @@ jobs:
             # Установка .deb файлов
             sudo dpkg -i /opt/chromium-gost/plugin/cades-linux-amd64/cprocsp-pki-plugin-64_2.0.14892-1_amd64.deb
             sudo apt-get install -f -y
-    shell: /usr/bin/bash -e {0}
+        shell: /usr/bin/bash -e {0}
                     
           # Запуск Selenium тестов с установленным расширением и проверкой сертификатов
       - name: Run Selenium tests with Chromium-Gost Extension
