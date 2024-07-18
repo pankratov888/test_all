@@ -32,14 +32,11 @@ jobs:
 
       - name: Установка CryptoPro CSP
         run: |
-          cd ./bin
-          tar -xf linux-amd64_deb.tgz
-          cd linux-amd64_deb
-          sudo /opt/linux-amd64_deb/install.sh
-          
-      - name: Создание симлинков
+          cd ./bin/linux-amd64_deb
+          sudo ./install.sh
+
+      - name: Create symbolic links for CryptoPro tools
         run: |
-  
           sudo ln -s /opt/cprocsp/bin/amd64/certmgr /usr/local/bin/certmgr
           sudo ln -s /opt/cprocsp/bin/amd64/cpverify /usr/local/bin/cpverify
           sudo ln -s /opt/cprocsp/bin/amd64/cryptcp /usr/local/bin/cryptcp
