@@ -73,11 +73,11 @@ jobs:
           mkdir -p $HOME/.config/chromium/Default/Extensions
           cp ./extensions/1.2.13_0.crx $HOME/.config/chromium/Default/Extensions/
 
-      - name: List installed packages
+      
+      - name: List installed certificates
         run: |
-          apt list --installed
-          dpkg -l | grep chromium
-          # Дополнительные команды для вывода информации о других установленных пакетах
+          ls -l /etc/ssl/certs/
+          cat /etc/ssl/certs/ca-certificates.crt  # Просмотр содержимого основного файла сертификатов
 
       - name: Run Selenium tests
         run: |
