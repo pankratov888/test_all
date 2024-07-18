@@ -30,12 +30,25 @@ jobs:
           pip3 install --upgrade pip setuptools wheel
           
 
-      - name: Extract and Install CryptoPro CSP
+      - name: Установка CryptoPro CSP
         run: |
           cd ./bin
-          tar -xzf linux-amd64_deb.tgz  # Замените на имя вашего архива, если нужно
+          tar -xf linux-amd64_deb.tgz
           cd linux-amd64_deb
-          sudo bash install.sh  # Если install.sh является установочным скриптом       
+          sudo /opt/linux-amd64_deb/install.sh
+          
+      - name: Создание симлинков
+        run: |
+  
+          sudo ln -s /opt/cprocsp/bin/amd64/certmgr /usr/local/bin/certmgr
+          sudo ln -s /opt/cprocsp/bin/amd64/cpverify /usr/local/bin/cpverify
+          sudo ln -s /opt/cprocsp/bin/amd64/cryptcp /usr/local/bin/cryptcp
+          sudo ln -s /opt/cprocsp/bin/amd64/csptest /usr/local/bin/csptest
+          sudo ln -s /opt/cprocsp/bin/amd64/csptestf /usr/local/bin/csptestf
+          sudo ln -s /opt/cprocsp/bin/amd64/der2xer /usr/local/bin/der2xer
+          sudo ln -s /opt/cprocsp/bin/amd64/inittst /usr/local/bin/inittst
+          sudo ln -s /opt/cprocsp/bin/amd64/wipefile /usr/local/bin/wipefile
+          sudo ln -s /opt/cprocsp/sbin/amd64/cpconfig /usr/local/bin/cpconfig
 
       - name: Проверка сертификатов и установка
         run: |
