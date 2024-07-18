@@ -49,19 +49,7 @@ jobs:
           sudo ln -s /opt/cprocsp/bin/amd64/wipefile /usr/local/bin/wipefile
           sudo ln -s /opt/cprocsp/sbin/amd64/cpconfig /usr/local/bin/cpconfig
 
-           # Установка необходимых пакетов CryptoPro CSP
-           sudo apt-get update
-           sudo apt-get install -y lsb-cprocsp-base lsb-cprocsp-rdr-64 lsb-cprocsp-kc1-64 lsb-cprocsp-capilite-64 cprocsp-curl-64 lsb-cprocsp-ca-certs
-      - name: Install GTK2 library (libgtk2.0-0)
-        run: sudo apt-get install -y libgtk2.0-0 libpangoxft-1.0-0
-
-      - name: Install cprocsp-rdr-gui-gtk-64 package
-        run: |
-          sudo dpkg -i ./bin/cprocsp-rdr-gui-gtk-64_4.0.0-4_amd64.deb
-          sudo apt-get install -f -y
-
-
-      - name: Extract CryptoPro EDS Browser plugin
+      - name: Create directory for CryptoPro plugin
         run: |
           sudo mkdir -p /opt/chromium-gost/plugin
 
@@ -69,21 +57,34 @@ jobs:
         run: |
           sudo tar -xvf ./bin/cades-linux-amd64.tar -C /opt/chromium-gost/plugin
 
+      - name: Install CryptoPro CSP packages
+        run: |
+          # Установка CryptoPro CSP (путь к установочным скриптам и пакетам должен быть точным)
+          sudo tar -xvf ./bin/linux-amd64_deb.tar -C /opt/chromium-gost/plugin
+          cd /opt/chromium-gost/plugin/linux-amd64_deb
+          sudo ./install.sh
+
+      - name: Install rdr_gui_gtk package
+        run: |
+          cd /opt/chromium-gost/plugin/cades-linux-amd64
+          sudo dpkg -i cprocsp-rdr-gui-gtk-64_4.0.0-4_amd64.deb
+          sudo apt-get install -f -y
+
       - name: Install CryptoPro EDS Browser plugin packages
         run: |
           cd /opt/chromium-gost/plugin/cades-linux-amd64
           sudo dpkg -i cprocsp-pki-cades-64_2.0.14892-1_amd64.deb
           sudo dpkg -i cprocsp-pki-plugin-64_2.0.14892-1_amd64.deb
           sudo apt-get install -f -y
-            
+              
 
       - name: Проверка сертификатов и установка
         run: |
-            for cert in ./bin/*.cer; do
-              openssl x509 -in "$cert" -out "${cert%.cer}.crt"
-            done
-            sudo cp ./bin/*.crt /usr/local/share/ca-certificates/
-            sudo update-ca-certificates
+              for cert in ./bin/*.cer; do
+                openssl x509 -in "$cert" -out "${cert%.cer}.crt"
+              done
+              sudo cp ./bin/*.crt /usr/local/share/ca-certificates/
+              sudo update-ca-certificates
 
       - name: Install dependencies
         run: |
