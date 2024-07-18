@@ -92,11 +92,6 @@ jobs:
         run: |
           sudo dpkg -i ./bin/cprocsp-rdr-gui-gtk-64_4.0.0-4_amd64.deb
           sudo apt-get install -f -y
-
-      - name: Install other .deb files
-        run: |
-          sudo dpkg -i /opt/chromium-gost/plugin/cades-linux-amd64/cprocsp-rdr-gui-gtk-64_4.0.0-4_amd64.deb
-          sudo apt-get install -f -y
                     
           # Запуск Selenium тестов с установленным расширением и проверкой сертификатов
       - name: Run Selenium tests with Chromium-Gost Extension
