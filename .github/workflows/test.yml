@@ -51,8 +51,7 @@ jobs:
 
       - name: Extract CryptoPro EDS Browser plugin
         run: |
-            cd ./bin
-            tar -xf cades-linux-amd64.tar
+            tar -xf ./bin/cades-linux-amd64.tar
             ls -l ./bin/cades-linux-amd64  # Проверьте содержимое каталога
 
       - name: Check contents of ./bin/cades-linux-amd64 after extraction
