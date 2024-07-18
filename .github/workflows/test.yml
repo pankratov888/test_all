@@ -106,14 +106,13 @@ jobs:
           DISPLAY: :99
 
             # Новый шаг для вывода параметров запуска и проверки сертификатов
+
       - name: Check Chromium-Gost parameters and certificates
         run: |
-                     echo "Chromium-Gost parameters:"
-                     ps aux | grep chromium-browser  # Вывод параметров запуска
-                     
-                     echo "Installed certificates:"
-                     ls /usr/local/share/ca-certificates/  # Проверка установленных сертификатов
-          
-          # Предполагаем, что DISPLAY уже установлен в :99 от предыдущего шага
+                echo "Chromium-Gost parameters:"
+                ps aux | grep chromium-browser | grep -v grep || true  # Вывод параметров запуска, игнорируя сам grep процесса
+
+                echo "Installed certificates:"
+                ls /usr/local/share/ca-certificates/
         env:
           DISPLAY: :99
