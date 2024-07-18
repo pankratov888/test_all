@@ -85,7 +85,8 @@ jobs:
           # Установка необходимых пакетов CryptoPro CSP
           sudo apt-get update
            sudo apt-get install -y lsb-cprocsp-base lsb-cprocsp-rdr-64 lsb-cprocsp-kc1-64 lsb-cprocsp-capilite-64 cprocsp-curl-64 lsb-cprocsp-ca-certs
-
+      - name: Install GTK2 library (libgtk2.0-0)
+        run: sudo apt-get install -y libgtk2.0-0
           # Установка rpm для работы с RPM-пакетами
       - name: Install cprocsp-rdr-gui-gtk-64 package
         run: |
