@@ -51,24 +51,12 @@ jobs:
 
       - name: Extract CryptoPro EDS Browser plugin
         run: |
-            if [ -f "./bin/cades-linux-amd64.tar" ]; then
-              sudo tar -xvf ./bin/cades-linux-amd64.tar -C /opt/chromium-gost/plugin
-            else
-              echo "File cades-linux-amd64.tar does not exist"
-              exit 1
-            fi
-
-      - name: Install CryptoPro EDS Browser plugin packages
-        run: |
-            if [ -d "/opt/chromium-gost/plugin/cades-linux-amd64" ]; then
-              cd /opt/chromium-gost/plugin/cades-linux-amd64
+          sudo mkdir -p /opt/chromium-gost/plugin
+          sudo tar -xvf ./bin/cades-linux-amd64.tar -C /opt/chromium-gost/plugin/
                sudo dpkg -i cprocsp-pki-cades-64_2.0.14892-1_amd64.deb
                sudo dpkg -i cprocsp-pki-plugin-64_2.0.14892-1_amd64.deb
                sudo apt-get install -f -y  # Установите все зависимости
-            else
-               echo "Directory /opt/chromium-gost/plugin/cades-linux-amd64 does not exist"
-               exit 1
-            fi
+            
 
       - name: Проверка сертификатов и установка
         run: |
