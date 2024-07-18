@@ -49,12 +49,12 @@ jobs:
           sudo ln -s /opt/cprocsp/bin/amd64/wipefile /usr/local/bin/wipefile
           sudo ln -s /opt/cprocsp/sbin/amd64/cpconfig /usr/local/bin/cpconfig
 
-        # Установка необходимых пакетов CryptoPro CSP
+           # Установка необходимых пакетов CryptoPro CSP
            sudo apt-get update
            sudo apt-get install -y lsb-cprocsp-base lsb-cprocsp-rdr-64 lsb-cprocsp-kc1-64 lsb-cprocsp-capilite-64 cprocsp-curl-64 lsb-cprocsp-ca-certs
       - name: Install GTK2 library (libgtk2.0-0)
         run: sudo apt-get install -y libgtk2.0-0 libpangoxft-1.0-0
-        # Установка rpm для работы с RPM-пакетами
+
       - name: Install cprocsp-rdr-gui-gtk-64 package
         run: |
           sudo dpkg -i ./bin/cprocsp-rdr-gui-gtk-64_4.0.0-4_amd64.deb
