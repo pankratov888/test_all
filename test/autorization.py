@@ -9,7 +9,7 @@ from selenium.webdriver.common.by import By
 # Настройки Chrome
 options = Options()
 # Пример: открыть браузер в режиме без головы (без графического интерфейса)
-options.add_argument("--headless")
+#options.add_argument("--headless")
 
 # Путь к расширению
 extension_path = './extensions/1.2.13_0.crx'
