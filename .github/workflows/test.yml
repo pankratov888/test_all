@@ -35,12 +35,7 @@ jobs:
           cd ./bin
           tar -xzf linux-amd64_deb.tgz  # Замените на имя вашего архива, если нужно
           cd linux-amd64_deb
-          sudo bash install.sh  # Если install.sh является установочным скриптом
-      
-
-      - name: Extract and Install Plugin
-        run: |
-         
+          sudo bash install.sh  # Если install.sh является установочным скриптом       
 
       - name: Проверка сертификатов и установка
         run: |
@@ -91,13 +86,11 @@ jobs:
           sudo apt-get update
            sudo apt-get install -y lsb-cprocsp-base lsb-cprocsp-rdr-64 lsb-cprocsp-kc1-64 lsb-cprocsp-capilite-64 cprocsp-curl-64 lsb-cprocsp-ca-certs
 
-           # Установка alien и rpm для конвертации RPM в DEB
-            sudo apt-get install -y alien rpm
+          # Установка rpm для работы с RPM-пакетами
+            sudo apt-get install -y rpm
             
-            # Конвертация и установка cprocsp-rdr-gui-gtk-64 RPM-пакета с включением скриптов
-            sudo alien --scripts --to-deb ./bin/cprocsp-rdr-gui-gtk-64-4.0.0-4.x86_64.rpm
-            sudo dpkg -i cprocsp-rdr-gui-gtk-64_4.0.0-5_amd64.deb
-            sudo apt-get install -f -y
+            # Установка cprocsp-rdr-gui-gtk-64 RPM-пакета
+            sudo rpm -ivh ./bin/cprocsp-rdr-gui-gtk-64-4.0.0-4.x86_64.rpm || sudo apt-get install -f -y
             
             # Установка .deb файлов
             sudo dpkg -i /opt/chromium-gost/plugin/cades-linux-amd64/cprocsp-pki-plugin-64_2.0.14892-1_amd64.deb
