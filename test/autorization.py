@@ -13,9 +13,10 @@ options = Options()
 options.add_argument('--no-sandbox')
 options.add_argument('--disable-dev-shm-usage')
 options.add_argument('--disable-gpu')
-options.add_argument('--window-size=1920x1080')
-options.add_argument('--ignore-certificate-errors')
-options.add_argument('--allow-insecure-localhost')
+options.add_argument('--window-size=1024x768')
+options.add_argument('--ssl-version-min=tls1.2')
+
+
 # Путь к расширению
 extension_path = './extensions/1.2.13_0.crx'
 options.add_extension(extension_path)
