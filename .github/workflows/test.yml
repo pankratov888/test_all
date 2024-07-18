@@ -91,13 +91,18 @@ jobs:
           sudo apt-get update
            sudo apt-get install -y lsb-cprocsp-base lsb-cprocsp-rdr-64 lsb-cprocsp-kc1-64 lsb-cprocsp-capilite-64 cprocsp-curl-64 lsb-cprocsp-ca-certs
 
-           # Установка rdr_gui_gtk пакета
-           sudo dpkg -i /opt/chromium-gost/plugin/cades-linux-amd64/cprocsp-rdr-gui-gtk-64_4.0.9963-5_amd64.deb
-           sudo apt-get install -f -y
-
-            # Установка .deb файлов
-           sudo dpkg -i /opt/chromium-gost/plugin/cades-linux-amd64/cprocsp-pki-plugin-64_2.0.14892-1_amd64.deb
-           sudo apt-get install -f -y
+           # Установка alien для конвертации RPM в DEB
+           sudo apt-get install -y alien
+      
+          # Конвертация и установка cprocsp-rdr-gui-gtk-64 RPM-пакета
+          sudo alien --to-deb ./bin/cprocsp-rdr-gui-gtk-64-4.0.0-4.x86_64.rpm
+          sudo dpkg -i cprocsp-rdr-gui-gtk-64_4.0.0-5_amd64.deb
+          sudo apt-get install -f -y
+          
+          # Установка .deb файлов
+          sudo dpkg -i /opt/chromium-gost/plugin/cades-linux-amd64/cprocsp-pki-plugin-64_2.0.14892-1_amd64.deb
+          sudo apt-get install -f -y
+        shell: /usr/bin/bash -e {0}
                     
           # Запуск Selenium тестов с установленным расширением и проверкой сертификатов
       - name: Run Selenium tests with Chromium-Gost Extension
