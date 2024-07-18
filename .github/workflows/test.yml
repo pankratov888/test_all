@@ -63,19 +63,7 @@ jobs:
           cd /opt/chromium-gost/plugin/linux-amd64_deb
           sudo ./install.sh
 
-      - name: Install rdr_gui_gtk package
-        run: |
-          cd /opt/chromium-gost/plugin/cades-linux-amd64
-          sudo dpkg -i cprocsp-rdr-gui-gtk-64_4.0.0-4_amd64.deb
-          sudo apt-get install -f -y
-
-      - name: Install CryptoPro EDS Browser plugin packages
-        run: |
-          cd /opt/chromium-gost/plugin/cades-linux-amd64
-          sudo dpkg -i cprocsp-pki-cades-64_2.0.14892-1_amd64.deb
-          sudo dpkg -i cprocsp-pki-plugin-64_2.0.14892-1_amd64.deb
-          sudo apt-get install -f -y
-              
+      
 
       - name: Проверка сертификатов и установка
         run: |
@@ -90,9 +78,6 @@ jobs:
          pip3 install -r requirements.txt
         shell: pwsh
 
-      - name: Make chromedriver executable
-        run: |
-            chmod +x ./bin/chromedriver
 
       - name: Start Xvfb
         run: |
@@ -110,19 +95,11 @@ jobs:
         run: |
           pip3 install selenium
 
-      - name: Install Chromium-Gost Extension
-        run: |
-          mkdir -p $HOME/.config/chromium/Default/Extensions
-          cp ./extensions/1.2.13_0.crx $HOME/.config/chromium/Default/Extensions/
-
-      
-  
-          
+             
           # Запуск Selenium тестов с установленным расширением и проверкой сертификатов
       - name: Run Selenium tests with Chromium-Gost Extension
         run: |
-            chromium-browser --load-extension=./Extensions/1.2.13_0.crx 
-            sleep 5
+            
             python3 test/autorization.py
         env:
             DISPLAY: :99
