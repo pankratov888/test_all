@@ -21,7 +21,7 @@ extension_path = './extensions/1.2.13_0.crx'
 options.add_extension(extension_path)
 
 # Инициализация веб-драйвера с использованием ChromeDriverManager
-service = ChromeService(ChromeDriverManager().install())
+service = ChromeService('./bin/chromedriver')
 browser = webdriver.Chrome(service=service, options=options)
 
 try:
