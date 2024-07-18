@@ -104,3 +104,16 @@ jobs:
             python3 test/autorization.py
         env:
           DISPLAY: :99
+
+            # Новый шаг для вывода параметров запуска и проверки сертификатов
+      - name: Check Chromium-Gost parameters and certificates
+        run: |
+                     echo "Chromium-Gost parameters:"
+                     ps aux | grep chromium-browser  # Вывод параметров запуска
+                     
+                     echo "Installed certificates:"
+                     ls /usr/local/share/ca-certificates/  # Проверка установленных сертификатов
+          
+          # Предполагаем, что DISPLAY уже установлен в :99 от предыдущего шага
+        env:
+          DISPLAY: :99
