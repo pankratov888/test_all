@@ -27,6 +27,8 @@ jobs:
           sudo apt-get install -y xvfb python3-pip ./bin/chromium-gost-126.0.6478.126-linux-amd64.deb
           pip3 install --upgrade urllib3 chardet
           pip3 install webdriver-manager  # Добавьте эту строку
+          pip3 install --upgrade pip setuptools wheel
+          
 
       - name: Extract and Install CryptoPro CSP
         run: |
@@ -58,7 +60,7 @@ jobs:
 
       - name: Start Xvfb
         run: |
-            Xvfb :99 -screen 0 1920x1080x16 &
+            Xvfb :99 -screen 0 1024x768x24 &
             export DISPLAY=:99
             echo "DISPLAY is set to $DISPLAY"
             ps -ef | grep Xvfb
@@ -91,6 +93,7 @@ jobs:
             sudo apt-get install -f -y
             sudo dpkg -i /opt/chromium-gost/plugin/cades-linux-ia32/*.deb || true
             sudo apt-get install -f -y
+            sudo apt-get update && apt-get install -y libdbus-1-dev libegl1-mesa libgl1-mesa-glx libgl1-mesa-dri xvfb
 
 
       - name: Run Selenium tests
