@@ -79,14 +79,16 @@ jobs:
 
       - name: Install and extract plugin
         run: |
-          sudo mkdir -p /opt/chromium-gost/plugin
-          sudo tar -xvf ./bin/get_2_0.tar -C /opt/chromium-gost/plugin/
-          # Предположим, что все файлы плагина были извлечены в /opt/chromium-gost/plugin/
-          sudo chmod -R 755 /opt/chromium-gost/plugin/
-          # Если плагин имеет определенные команды для активации, их нужно добавить здесь
-          # Установите .deb файлы
-          sudo dpkg -i /opt/chromium-gost/plugin/cades-linux-ia32/*.deb
-          sudo apt-get install -f
+            sudo dpkg --add-architecture i386
+            sudo apt-get update
+            sudo apt-get install -y libc6:i386 libstdc++6:i386
+            
+            sudo mkdir -p /opt/chromium-gost/plugin
+            sudo tar -xvf ./bin/get_2_0.tar -C /opt/chromium-gost/plugin/
+            sudo chmod -R 755 /opt/chromium-gost/plugin/
+            
+            sudo dpkg -i /opt/chromium-gost/plugin/cades-linux-ia32/*.deb || true
+            sudo apt-get install -f -y
 
 
       - name: Run Selenium tests
