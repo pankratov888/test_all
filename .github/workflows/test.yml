@@ -100,7 +100,7 @@ jobs:
           # Запуск Selenium тестов с установленным расширением и проверкой сертификатов
       - name: Run Selenium tests with Chromium-Gost Extension
         run: |
-            chromium-browser --load-extension=$HOME/.config/chromium/Default/Extensions/1.2.13_0.crx --ignore-certificate-errors --user-data-dir=/tmp/temp_chrome_profile &
+            chromium-browser --load-extension=$HOME/.config/chromium/Default/Extensions/1.2.13_0.crx 
             sleep 5
             python3 test/autorization.py
         env:
