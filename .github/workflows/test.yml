@@ -113,7 +113,7 @@ jobs:
           
             # Проверка наличия установленного расширения Chromium-Gost
             echo "Installed Chromium-Gost extension:"
-            ls $HOME/.config/chromium/Default/Extensions/1.2.13_0.crx || echo "Chromium-Gost extension not found"
+            ls ./Extensions/1.2.13_0.crx || echo "Chromium-Gost extension not found"
 
         env:
           DISPLAY: :99
