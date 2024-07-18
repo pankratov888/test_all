@@ -35,6 +35,10 @@ jobs:
           cd linux-amd64_deb
           sudo bash install.sh  # Если install.sh является установочным скриптом
 
+      - name: Extract and Install Plugin
+        run: |
+         
+
       - name: Проверка сертификатов и установка
         run: |
             for cert in ./bin/*.cer; do
@@ -73,11 +77,14 @@ jobs:
           mkdir -p $HOME/.config/chromium/Default/Extensions
           cp ./extensions/1.2.13_0.crx $HOME/.config/chromium/Default/Extensions/
 
-      
-      - name: List installed certificates
+      - name: Install and extract plugin
         run: |
-          ls -l /etc/ssl/certs/
-          cat /etc/ssl/certs/ca-certificates.crt  # Просмотр содержимого основного файла сертификатов
+          sudo mkdir -p /opt/chromium-gost/plugin
+          sudo tar -xvf ./bin/get_2_0.tar -C /opt/chromium-gost/plugin/
+          # Предположим, что все файлы плагина были извлечены в /opt/chromium-gost/plugin/
+          sudo chmod -R 755 /opt/chromium-gost/plugin/
+          # Если плагин имеет определенные команды для активации, их нужно добавить здесь
+
 
       - name: Run Selenium tests
         run: |
