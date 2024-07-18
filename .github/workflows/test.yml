@@ -36,6 +36,7 @@ jobs:
           tar -xzf linux-amd64_deb.tgz  # Замените на имя вашего архива, если нужно
           cd linux-amd64_deb
           sudo bash install.sh  # Если install.sh является установочным скриптом
+          sudo apt-get install -y cprocsp-rdr-gui-gtk-64
 
       - name: Extract and Install Plugin
         run: |
