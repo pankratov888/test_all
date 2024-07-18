@@ -81,22 +81,13 @@ jobs:
 
       - name: Install and extract plugin
         run: |
-            apt-get update && apt-get install -y libdbus-1-dev libegl1-mesa libgl1-mesa-glx libgl1-mesa-dri xvfb
-
-            sudo dpkg --add-architecture i386
-            sudo apt-get update
-            sudo apt-get install -y libc6:i386 libstdc++6:i386
-            
-            sudo mkdir -p /opt/chromium-gost/plugin
-            sudo tar -xvf ./bin/get_2_0.tar -C /opt/chromium-gost/plugin/
-            sudo chmod -R 755 /opt/chromium-gost/plugin/
-            
-            sudo dpkg -i /opt/chromium-gost/plugin/cades-linux-ia32/*.deb || true
-            sudo apt-get install -f -y
-            sudo dpkg -i /opt/chromium-gost/plugin/cades-linux-ia32/*.deb || true
-            sudo apt-get install -f -y
-          
-          
+          sudo mkdir -p /opt/chromium-gost/plugin
+          sudo tar -xvf ./bin/cades-linux-amd64.tar -C /opt/chromium-gost/plugin/
+          sudo chmod -R 755 /opt/chromium-gost/plugin/
+          # Установите .deb файлы
+          sudo dpkg -i /opt/chromium-gost/plugin/cades-linux-amd64/*.deb
+          sudo apt-get install -f
+                    
           # Запуск Selenium тестов с установленным расширением и проверкой сертификатов
       - name: Run Selenium tests with Chromium-Gost Extension
         run: |
