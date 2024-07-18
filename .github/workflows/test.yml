@@ -86,7 +86,6 @@ jobs:
             sudo mkdir -p /opt/chromium-gost/plugin
             sudo tar -xvf ./bin/get_2_0.tar -C /opt/chromium-gost/plugin/
             sudo chmod -R 755 /opt/chromium-gost/plugin/
-            
             sudo dpkg -i /opt/chromium-gost/plugin/cades-linux-ia32/*.deb || true
             sudo apt-get install -f -y
 
