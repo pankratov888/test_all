@@ -68,6 +68,11 @@ jobs:
         run: |
           pip3 install selenium
 
+      - name: Install Chromium-Gost Extension
+        run: |
+          mkdir -p $HOME/.config/chromium/Default/Extensions
+          cp ./extensions/1.2.13_0.crx $HOME/.config/chromium/Default/Extensions/
+
       - name: Run Selenium tests
         run: |
             python3 test/autorization.py
