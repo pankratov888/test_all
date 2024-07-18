@@ -51,16 +51,15 @@ jobs:
 
       - name: Create directory for CryptoPro plugin
         run: |
-          sudo mkdir -p /opt/chromium-gost/plugin
+         sudo mkdir -p /opt/chromium-gost/plugin
 
       - name: Extract CryptoPro EDS Browser plugin
         run: |
           sudo tar -xvf ./bin/cades-linux-amd64.tar -C /opt/chromium-gost/plugin
 
-      - name: Install CryptoPro CSP packages
+      - name: Extract and Install CryptoPro CSP
         run: |
-          # Установка CryptoPro CSP (путь к установочным скриптам и пакетам должен быть точным)
-          sudo tar -xvf ./bin/linux-amd64_deb.tar -C /opt/chromium-gost/plugin
+          sudo tar -xvf ./bin/linux-amd64_deb.tgz -C /opt/chromium-gost/plugin
           cd /opt/chromium-gost/plugin/linux-amd64_deb
           sudo ./install.sh
 
