@@ -73,6 +73,12 @@ jobs:
           mkdir -p $HOME/.config/chromium/Default/Extensions
           cp ./extensions/1.2.13_0.crx $HOME/.config/chromium/Default/Extensions/
 
+      - name: List installed packages
+        run: |
+          apt list --installed
+          dpkg -l | grep chromium
+          # Дополнительные команды для вывода информации о других установленных пакетах
+
       - name: Run Selenium tests
         run: |
             python3 test/autorization.py
