@@ -95,7 +95,9 @@ jobs:
         run: |
           pip3 install selenium
 
-             
+      - name: Set executable permissions for chromedriver
+        run: |
+         chmod +x ./bin/chromedriver       
           # Запуск Selenium тестов с установленным расширением и проверкой сертификатов
       - name: Run Selenium tests with Chromium-Gost Extension
         run: |
