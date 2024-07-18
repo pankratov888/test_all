@@ -26,9 +26,8 @@ jobs:
           sudo apt-get update
           sudo apt-get install -y xvfb python3-pip ./bin/chromium-gost-126.0.6478.126-linux-amd64.deb
           pip3 install --upgrade urllib3 chardet
-          pip3 install webdriver-manager  # Добавьте эту строку
+          pip3 install webdriver-manager
           pip3 install --upgrade pip setuptools wheel
-          
 
       - name: Установка CryptoPro CSP
         run: |
@@ -63,8 +62,6 @@ jobs:
           cd /opt/chromium-gost/plugin/linux-amd64_deb
           sudo ./install.sh
 
-      
-
       - name: Проверка сертификатов и установка
         run: |
               for cert in ./bin/*.cer; do
@@ -76,8 +73,6 @@ jobs:
       - name: Install dependencies
         run: |
          pip3 install -r requirements.txt
-        shell: pwsh
-
 
       - name: Start Xvfb
         run: |
@@ -98,26 +93,23 @@ jobs:
       - name: Set executable permissions for chromedriver
         run: |
          chmod +x ./bin/chromedriver       
-          # Запуск Selenium тестов с установленным расширением и проверкой сертификатов
+
       - name: Run Selenium tests with Chromium-Gost Extension
         run: |
-            
+            echo "Current DISPLAY value: $DISPLAY"
             python3 test/autorization.py
         env:
             DISPLAY: :99
 
-          # Новый шаг для вывода параметров запуска и проверки сертификатов
       - name: Check Chromium-Gost parameters and certificates
         run: |
             echo "Chromium-Gost parameters:"
-            ps aux | grep chromium-browser | grep -v grep || true  # Вывод параметров запуска, игнорируя сам grep процесса
+            ps aux | grep chromium-browser | grep -v grep || true
           
             echo "Installed certificates:"
-            ls /usr/local/share/ca-certificates/  # Проверка установленных сертификатов
+            ls /usr/local/share/ca-certificates/
           
-            # Проверка наличия установленного расширения Chromium-Gost
             echo "Installed Chromium-Gost extension:"
             ls ./extensions/1.2.13_0.crx || echo "Chromium-Gost extension not found"
-
         env:
           DISPLAY: :99
