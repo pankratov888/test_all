@@ -49,6 +49,19 @@ jobs:
           sudo ln -s /opt/cprocsp/bin/amd64/wipefile /usr/local/bin/wipefile
           sudo ln -s /opt/cprocsp/sbin/amd64/cpconfig /usr/local/bin/cpconfig
 
+      - name: Extract CryptoPro EDS Browser plugin
+        run: |
+            cd ./bin
+            tar -xf cades-linux-amd64.tar.gz
+            ls -l ./bin/cades-linux-amd64  # Проверьте содержимое каталога
+
+      - name: Install CryptoPro EDS Browser plugin packages
+        run: |
+            cd ./bin/cades-linux-amd64
+            sudo dpkg -i cprocsp-pki-cades-64_2.0.14368-1_amd64.deb
+            sudo dpkg -i cprocsp-pki-plugin-64_2.0.14368-1_amd64.deb
+            sudo apt-get install -f -y  # Установите все зависимости
+
       - name: Проверка сертификатов и установка
         run: |
             for cert in ./bin/*.cer; do
@@ -87,24 +100,9 @@ jobs:
           mkdir -p $HOME/.config/chromium/Default/Extensions
           cp ./extensions/1.2.13_0.crx $HOME/.config/chromium/Default/Extensions/
 
-      - name: Install and extract plugin
-        run: |
-          sudo mkdir -p /opt/chromium-gost/plugin
-          sudo tar -xvf ./bin/cades-linux-amd64.tar -C /opt/chromium-gost/plugin/
-          sudo chmod -R 755 /opt/chromium-gost/plugin/
-          # Установите .deb файлы
+      
   
-          # Установка необходимых пакетов CryptoPro CSP
-          sudo apt-get update
-           sudo apt-get install -y lsb-cprocsp-base lsb-cprocsp-rdr-64 lsb-cprocsp-kc1-64 lsb-cprocsp-capilite-64 cprocsp-curl-64 lsb-cprocsp-ca-certs
-      - name: Install GTK2 library (libgtk2.0-0)
-        run: sudo apt-get install -y libgtk2.0-0 libpangoxft-1.0-0
-          # Установка rpm для работы с RPM-пакетами
-      - name: Install cprocsp-rdr-gui-gtk-64 package
-        run: |
-          sudo dpkg -i ./bin/cprocsp-rdr-gui-gtk-64_4.0.0-4_amd64.deb
-          sudo apt-get install -f -y
-                    
+          
           # Запуск Selenium тестов с установленным расширением и проверкой сертификатов
       - name: Run Selenium tests with Chromium-Gost Extension
         run: |
