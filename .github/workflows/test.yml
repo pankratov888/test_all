@@ -1,126 +1,46 @@
-name: Install and Run Chromium-Gost with Selenium
+name: Setup Browser on Windows
 
 on:
   push:
     branches:
       - main
+  pull_request:
+    branches:
+      - main
 
 jobs:
-  run-chromium-gost:
-    runs-on: ubuntu-latest
+  build:
+    runs-on: windows-latest
 
     steps:
-      - name: Checkout repository
-        uses: actions/checkout@v2
+    - name: Checkout repository
+      uses: actions/checkout@v3
 
-      - name: List files in root directory
-        run: |
-          ls -la
+    - name: Setup browser
+      run: |
+        # Create a directory for the browser if it doesn't exist
+        if (-not (Test-Path -Path "./bin")) {
+          New-Item -ItemType Directory -Path "./bin"
+        }
 
-      - name: List files in bin directory
-        run: |
-          ls -la bin
+        # Path to the browser executable
+        $browserPath = "./bin/chromium-gost-125.0.6422.60-windows-amd64-installer.exe"
 
-      - name: Install dependencies
-        run: |
-          sudo apt-get update
-          sudo apt-get install -y xvfb python3-pip ./bin/chromium-gost-126.0.6478.126-linux-amd64.deb
-          pip3 install --upgrade urllib3 chardet
-          pip3 install webdriver-manager
-          pip3 install --upgrade pip setuptools wheel
-          
-          
-      
+        # Check if the browser executable exists
+        if (Test-Path -Path $browserPath) {
+          Write-Output "Browser found at $browserPath"
+        } else {
+          Write-Output "Browser not found at $browserPath"
+          Exit 1
+        }
 
-      - name: Установка CryptoPro CSP
-        run: |
-          cd ./bin
-          tar -xzf linux-amd64_deb.tgz 
-          cd linux-amd64_deb
-          sudo ./install.sh
+        # Optionally, you can add commands to install or configure the browser here
+        # e.g., Copy the browser to a location in PATH or perform setup steps
 
-      - name: Create symbolic links for CryptoPro tools
-        run: |
-          sudo ln -s /opt/cprocsp/bin/amd64/certmgr /usr/local/bin/certmgr
-          sudo ln -s /opt/cprocsp/bin/amd64/cpverify /usr/local/bin/cpverify
-          sudo ln -s /opt/cprocsp/bin/amd64/cryptcp /usr/local/bin/cryptcp
-          sudo ln -s /opt/cprocsp/bin/amd64/csptest /usr/local/bin/csptest
-          sudo ln -s /opt/cprocsp/bin/amd64/csptestf /usr/local/bin/csptestf
-          sudo ln -s /opt/cprocsp/bin/amd64/der2xer /usr/local/bin/der2xer
-          sudo ln -s /opt/cprocsp/bin/amd64/inittst /usr/local/bin/inittst
-          sudo ln -s /opt/cprocsp/bin/amd64/wipefile /usr/local/bin/wipefile
-          sudo ln -s /opt/cprocsp/sbin/amd64/cpconfig /usr/local/bin/cpconfig
+        # Example: Installing the browser if needed
+        # Start-Process -FilePath $browserPath -ArgumentList "/silent" -Wait
 
-      - name: Create directory for CryptoPro plugin
-        run: |
-         sudo mkdir -p /opt/chromium-gost/plugin
-
-      - name: Extract CryptoPro EDS Browser plugin
-        run: |
-          sudo tar -xvf ./bin/cades-linux-amd64.tar -C /opt/chromium-gost/plugin
-
-      - name: Extract and Install CryptoPro CSP
-        run: |
-          sudo tar -xvf ./bin/linux-amd64_deb.tgz -C /opt/chromium-gost/plugin
-          cd /opt/chromium-gost/plugin/linux-amd64_deb
-          sudo ./install.sh
-
-      - name: Проверка сертификатов и установка
-        run: |
-              for cert in ./bin/*.cer; do
-                openssl x509 -in "$cert" -out "${cert%.cer}.crt"
-              done
-              sudo cp ./bin/*.crt /usr/local/share/ca-certificates/
-              sudo update-ca-certificates
-
-      - name: Install dependencies
-        run: |
-         pip3 install -r requirements.txt
-
-      - name: Start Xvfb
-        run: |
-            Xvfb :99 -screen 0 1024x768x24 &
-            export DISPLAY=:99
-            echo "DISPLAY is set to $DISPLAY"
-            ps -ef | grep Xvfb
-
-      - name: Verify installation
-        run: |
-          which chromium-browser
-          chromium-browser --version
-
-      - name: Install Selenium
-        run: |
-          pip3 install selenium
-
-      - name: Set executable permissions for chromedriver
-        run: |
-         chmod +x ./bin/chromedriver       
-
-      - name: Run Selenium tests with Chromium-Gost Extension
-        run: |
-            echo "Current DISPLAY value: $DISPLAY"
-            curl -v https://pgs.gosuslugi.ru
-            python3 test/autorization.py
-        env:
-            DISPLAY: :99
-
-      - name: Output detailed SSL error information
-        run: |
-          openssl s_client -connect pgs.gosuslugi.ru:443 -servername pgs.gosuslugi.ru
-          # Replace 'pgs.gosuslugi.ru' with the actual domain you're testing
-        env:
-          DISPLAY: :99
-
-      - name: Check Chromium-Gost parameters and certificates
-        run: |
-            echo "Chromium-Gost parameters:"
-            ps aux | grep chromium-browser | grep -v grep || true
-          
-            echo "Installed certificates:"
-            ls /usr/local/share/ca-certificates/
-          
-            echo "Installed Chromium-Gost extension:"
-            ls ./extensions/1.2.13_0.crx || echo "Chromium-Gost extension not found"
-        env:
-          DISPLAY: :99
+    - name: Run your script or tests
+      run: |
+        # Replace this with your actual script or test commands
+        Write-Output "Running tests or other commands..."
