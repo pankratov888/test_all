@@ -27,33 +27,23 @@ jobs:
         # Use 7-Zip to extract the archive
         & "C:\Program Files\7-Zip\7z.exe" x "./bin/chromium-gost-49.0.2623.112-win32-gold.7z" -o"./bin/chromium-gost" -y
 
-    - name: Verify extracted files
-      run: |
-        # List files in the directory to verify extraction
-        Get-ChildItem -Path "./bin/chromium-gost" -Recurse
+    - name: Install Python and Dependencies
+      uses: actions/setup-python@v4
+      with:
+        python-version: '3.x'
 
-    - name: Run chrome.exe
+    - name: Install Python Dependencies
       run: |
-        # Path to the chrome.exe file
-        $chromePath = "$($PWD)\bin\chromium-gost\chromium-gost-49.0.2623.112-win32\chrome.exe"
+        python -m pip install --upgrade pip
+        pip install selenium
+        pip install selenium webdriver_manager
+
+    - name: Install dependencies
+      run: |
+          pip install -r requirements.txt
         
-        # Log the current directory for reference
-        Write-Output "Current Directory: $($PWD)"
-        
-        # Check if the chrome.exe file exists
-        if (Test-Path -Path $chromePath) {
-          Write-Output "Executable found at $chromePath"
-          
-          # Run the browser in headless mode
-          try {
-            Start-Process -FilePath $chromePath -ArgumentList "--disable-gpu --remote-debugging-port=9222" -Wait -NoNewWindow -PassThru | Out-String
-            Write-Output "Browser is running in headless mode."
-          } catch {
-            Write-Output "Error occurred while starting the process: $_"
-            Exit 1
-          }
-        } else {
-          Write-Output "Executable not found at $chromePath"
-          Exit 1
-        }
+    - name: Run Tests
+      run: |
+        python test/autorization.py
       shell: pwsh
+
