@@ -11,6 +11,8 @@ from selenium.webdriver.common.by import By
 # Настройки Chrome
 options = Options()
 options.add_argument("--headless")
+options.add_argument("--disable-dev-shm-usage")
+options.add_argument("--cipher-suite-blacklist=0x00,0x1C,0x2F,0x3C,0x9C")
 
 # Инициализация веб-драйвера
 service = ChromeService(ChromeDriverManager().install())
