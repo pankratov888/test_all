@@ -35,16 +35,23 @@ jobs:
     - name: Run chrome.exe
       run: |
         # Path to the chrome.exe file
-        $chromePath = "./bin/chromium-gost-49.0.2623.112-win32/chrome.exe"
+        $chromePath = "$($PWD)\bin\chromium-gost\chromium-gost-49.0.2623.112-win32\chrome.exe"
+        
+        # Log the current directory for reference
+        Write-Output "Current Directory: $($PWD)"
         
         # Check if the chrome.exe file exists
         if (Test-Path -Path $chromePath) {
           Write-Output "Executable found at $chromePath"
           
           # Run the browser in headless mode
-          Start-Process -FilePath $chromePath -ArgumentList "--headless --disable-gpu --remote-debugging-port=9222" -Wait
-          
-          Write-Output "Browser is running in headless mode."
+          try {
+            Start-Process -FilePath $chromePath -ArgumentList "--headless --disable-gpu --remote-debugging-port=9222" -Wait -NoNewWindow -PassThru | Out-String
+            Write-Output "Browser is running in headless mode."
+          } catch {
+            Write-Output "Error occurred while starting the process: $_"
+            Exit 1
+          }
         } else {
           Write-Output "Executable not found at $chromePath"
           Exit 1
