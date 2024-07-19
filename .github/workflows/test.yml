@@ -28,7 +28,7 @@ jobs:
           pip3 install --upgrade urllib3 chardet
           pip3 install webdriver-manager
           pip3 install --upgrade pip setuptools wheel
-          curl -v https://pgs.gosuslugi.ru
+          
           
       
 
@@ -100,6 +100,7 @@ jobs:
       - name: Run Selenium tests with Chromium-Gost Extension
         run: |
             echo "Current DISPLAY value: $DISPLAY"
+            curl -v https://pgs.gosuslugi.ru
             python3 test/autorization.py
         env:
             DISPLAY: :99
