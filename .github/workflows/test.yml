@@ -117,6 +117,13 @@ jobs:
         env:
             DISPLAY: :99
 
+      - name: Output detailed SSL error information
+        run: |
+          openssl s_client -connect pgs.gosuslugi.ru:443 -servername pgs.gosuslugi.ru
+          # Replace 'pgs.gosuslugi.ru' with the actual domain you're testing
+        env:
+          DISPLAY: :99
+
       - name: Check Chromium-Gost parameters and certificates
         run: |
             echo "Chromium-Gost parameters:"
