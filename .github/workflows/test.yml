@@ -24,7 +24,7 @@ jobs:
         }
 
         # Path to the browser executable
-        $browserPath = "./bin/chromium-gost-125.0.6422.60-windows-amd64-installer.exe"
+        $browserPath = "./bin/browser.exe"
 
         # Check if the browser executable exists
         if (Test-Path -Path $browserPath) {
@@ -40,7 +40,11 @@ jobs:
         # Example: Installing the browser if needed
         # Start-Process -FilePath $browserPath -ArgumentList "/silent" -Wait
 
-    - name: Run your script or tests
+    - name: Run tests or other commands
+      shell: pwsh
       run: |
         # Replace this with your actual script or test commands
         Write-Output "Running tests or other commands..."
+        # Here you can run your PowerShell script or commands
+        # For example, if you have a script located at ./scripts/test.ps1
+        # .\scripts\test.ps1
