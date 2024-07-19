@@ -7,7 +7,8 @@ from selenium.webdriver.support import expected_conditions as EC
 from webdriver_manager.chrome import ChromeDriverManager
 
 # Путь к исполняемому файлу Chrome
-chrome_path = r'$($PWD)\bin\chromium-gost\chromium-gost-49.0.2623.112-win32\chrome.exe'
+chrome_path = r'D:\a\test_all\test_all\bin\chromium-gost\chromium-gost-49.0.2623.112-win32\chrome.exe'
+
 
 # Настройки Chrome
 options = Options()
