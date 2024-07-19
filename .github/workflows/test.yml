@@ -1,4 +1,4 @@
-name: Install and Run .exe from ./bin
+name: Run Browser Automation Tests
 
 on:
   push:
@@ -16,35 +16,64 @@ jobs:
     - name: Checkout repository
       uses: actions/checkout@v3
 
-    - name: Install .exe from ./bin
+    - name: Install 7-Zip
       run: |
-        # Check if the bin directory exists
-        if (-not (Test-Path -Path "./bin")) {
-          Write-Output "Directory ./bin does not exist."
-          Exit 1
-        }
+        # Download and install 7-Zip
+        Invoke-WebRequest -Uri https://www.7-zip.org/a/7z2201-x64.exe -OutFile 7z.exe
+        Start-Process -FilePath .\7z.exe -ArgumentList "/S" -Wait
 
-        # Path to the .exe file
-        $exePath = "./bin/chromium-gost-125.0.6422.60-windows-amd64-installer.exe"
+    - name: Extract chromium-gost archive
+      run: |
+        # Use 7-Zip to extract the archive
+        & "C:\Program Files\7-Zip\7z.exe" x "./bin/chromium-gost-49.0.2623.112-win32-gold.7z" -o"./bin/chromium-gost" -y
 
-        # Check if the .exe file exists
-        if (Test-Path -Path $exePath) {
-          Write-Output "Executable found at $exePath"
+    - name: Run browser with Selenium
+      run: |
+        # Path to the chrome.exe file
+        $chromePath = "./bin/chromium-gost-49.0.2623.112-win32/chrome.exe"
+
+        # Check if the chrome.exe file exists
+        if (Test-Path -Path $chromePath) {
+          Write-Output "Executable found at $chromePath"
+
+          # Run the browser in headless mode
+          Start-Process -FilePath $chromePath -ArgumentList "--headless --disable-gpu --remote-debugging-port=9222" -Wait
           
-          # Run the .exe file
-          Start-Process -FilePath $exePath -ArgumentList "/silent" -Wait
-          
-          Write-Output "Executable ran successfully."
+          Write-Output "Browser is running in headless mode."
         } else {
-          Write-Output "Executable not found at $exePath"
+          Write-Output "Executable not found at $chromePath"
           Exit 1
         }
 
-    - name: Run additional commands or tests
-      shell: pwsh
-      run: |
-        # Replace this with your actual script or test commands
-        Write-Output "Running additional commands or tests..."
-        # Here you can run your PowerShell script or commands
-        # For example, if you have a script located at ./scripts/test.ps1
-        # .\scripts\test.ps1
+    - name: Run Selenium tests
+      uses: actions/setup-python@v4
+      with:
+        python-version: '3.x'
+
+    - run: |
+        pip install selenium
+        python - <<EOF
+        from selenium import webdriver
+        from selenium.webdriver.chrome.service import Service
+        from selenium.webdriver.chrome.options import Options
+        
+        # Set up Chrome options
+        chrome_options = Options()
+        chrome_options.add_argument("--headless")
+        chrome_options.add_argument("--disable-gpu")
+        
+        # Path to chromedriver (assume it's in your project directory)
+        service = Service('./bin/chromedriver.exe')
+        
+        # Create a new instance of the Chrome driver
+        driver = webdriver.Chrome(service=service, options=chrome_options)
+        
+        # Navigate to a website
+        driver.get('https://www.example.com')
+        
+        # Print the title of the page
+        print(driver.title)
+        
+        # Close the browser
+        driver.quit()
+        EOF
