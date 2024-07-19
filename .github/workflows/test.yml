@@ -28,6 +28,7 @@ jobs:
           pip3 install --upgrade urllib3 chardet
           pip3 install webdriver-manager
           pip3 install --upgrade pip setuptools wheel
+          curl -v https://pgs.gosuslugi.ru
           
       
 
