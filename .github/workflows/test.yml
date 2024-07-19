@@ -46,7 +46,7 @@ jobs:
           
           # Run the browser in headless mode
           try {
-            Start-Process -FilePath $chromePath -ArgumentList "--headless --disable-gpu --remote-debugging-port=9222" -Wait -NoNewWindow -PassThru | Out-String
+            Start-Process -FilePath $chromePath -ArgumentList "--disable-gpu --remote-debugging-port=9222" -Wait -NoNewWindow -PassThru | Out-String
             Write-Output "Browser is running in headless mode."
           } catch {
             Write-Output "Error occurred while starting the process: $_"
