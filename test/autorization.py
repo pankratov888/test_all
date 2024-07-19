@@ -30,14 +30,14 @@ browser = webdriver.Chrome(service=service, options=options)
 
 try:
     print("Открытие страницы...")
-    browser.get("https://esia.gosuslugi.ru/login/")
+    browser.get("https://ya.ru/")
     print("Страница загружена.")
 
     # Вывод HTML страницы для отладки
     print(browser.page_source)
     time.sleep(5)
     # Проверка наличия элемента по id
-    element_id = "logo"
+    element_id = "fe63b914944963d357284f633f943e18.0"
     WebDriverWait(browser, 20).until(EC.visibility_of_element_located((By.ID, element_id)))
     print("Элемент отображается на странице.")
 
