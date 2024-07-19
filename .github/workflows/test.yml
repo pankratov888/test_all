@@ -1,4 +1,4 @@
-name: Setup Browser on Windows
+name: Install and Run .exe from ./bin
 
 on:
   push:
@@ -16,35 +16,35 @@ jobs:
     - name: Checkout repository
       uses: actions/checkout@v3
 
-    - name: Setup browser
+    - name: Install .exe from ./bin
       run: |
-        # Create a directory for the browser if it doesn't exist
+        # Check if the bin directory exists
         if (-not (Test-Path -Path "./bin")) {
-          New-Item -ItemType Directory -Path "./bin"
-        }
-
-        # Path to the browser executable
-        $browserPath = "./bin/chromium-gost-125.0.6422.60-windows-amd64-installer.exe"
-
-        # Check if the browser executable exists
-        if (Test-Path -Path $browserPath) {
-          Write-Output "Browser found at $browserPath"
-        } else {
-          Write-Output "Browser not found at $browserPath"
+          Write-Output "Directory ./bin does not exist."
           Exit 1
         }
 
-        # Optionally, you can add commands to install or configure the browser here
-        # e.g., Copy the browser to a location in PATH or perform setup steps
+        # Path to the .exe file
+        $exePath = "./bin/chromium-gost-125.0.6422.60-windows-amd64-installer.exe"
 
-        # Example: Installing the browser if needed
-        # Start-Process -FilePath $browserPath -ArgumentList "/silent" -Wait
+        # Check if the .exe file exists
+        if (Test-Path -Path $exePath) {
+          Write-Output "Executable found at $exePath"
+          
+          # Run the .exe file
+          Start-Process -FilePath $exePath -ArgumentList "/silent" -Wait
+          
+          Write-Output "Executable ran successfully."
+        } else {
+          Write-Output "Executable not found at $exePath"
+          Exit 1
+        }
 
-    - name: Run tests or other commands
+    - name: Run additional commands or tests
       shell: pwsh
       run: |
         # Replace this with your actual script or test commands
-        Write-Output "Running tests or other commands..."
+        Write-Output "Running additional commands or tests..."
         # Here you can run your PowerShell script or commands
         # For example, if you have a script located at ./scripts/test.ps1
         # .\scripts\test.ps1
