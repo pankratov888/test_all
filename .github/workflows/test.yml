@@ -28,6 +28,22 @@ jobs:
           pip3 install --upgrade urllib3 chardet
           pip3 install webdriver-manager
           pip3 install --upgrade pip setuptools wheel
+          
+      - name: Create and install custom SSL certificates
+        run: |
+          # Create root certificate
+          openssl genpkey -algorithm RSA -out rootCA.key -pkeyopt rsa_keygen_bits:2048
+          openssl req -x509 -new -nodes -key rootCA.key -sha256 -days 1024 -out rootCA.crt -subj "/C=RU/ST=Moscow/L=Moscow/O=MyCompany/OU=IT/CN=pgs.gosuslugi.ru"
+
+          # Create server certificate
+          openssl genpkey -algorithm RSA -out server.key -pkeyopt rsa_keygen_bits:2048
+          openssl req -new -key server.key -out server.csr -subj "/C=RU/ST=Moscow/L=Moscow/O=MyCompany/OU=IT/CN=pgs.gosuslugi.ru"
+          openssl x509 -req -in server.csr -CA rootCA.crt -CAkey rootCA.key -CAcreateserial -out server.crt -days 500 -sha256
+
+          # Install certificates
+          sudo cp rootCA.crt /usr/local/share/ca-certificates/
+          sudo cp server.crt /usr/local/share/ca-certificates/
+          sudo update-ca-certificates
 
       - name: Установка CryptoPro CSP
         run: |
