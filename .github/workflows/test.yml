@@ -24,7 +24,7 @@ jobs:
         }
 
         # Path to the browser executable
-        $browserPath = "./bin/browser.exe"
+        $browserPath = "./bin/chromium-gost-125.0.6422.60-windows-amd64-installer.exe"
 
         # Check if the browser executable exists
         if (Test-Path -Path $browserPath) {
